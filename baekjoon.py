@@ -20,7 +20,7 @@ def check(A,B):
                 if a[i+j] == b[j]:
                     #check
                     c+=1
-                    k.append(a[i+j]) # 아 연속성을 안넣었다, 지금보니까 시작점도 바꿔줘야됨
+                    k.append(a[i+j]) # 아 연속성을 안넣었다, 지금보니까 시작점도 바꿔줘야됨# 아 이거 문제있네,
                 else: # 일치하지 않으면
                     if c and c>=K:
                         common.append(k) # 다 똑같으면 효율이 떨어짐 
