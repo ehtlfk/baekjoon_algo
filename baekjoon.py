@@ -20,12 +20,17 @@ def check(A,B):
                 if a[i+j] == b[j]:
                     #check
                     c+=1
-                    k.append(a[i+j]) # 아 연속성을 안넣었다, 지금보니까 시작점도 바꿔줘야됨# 아 이거 문제있네,
+                    k.append(a[i+j]) # 아 연속성을 안넣었다, 지금보니까 시작점도 바꿔줘야됨# 아 이거 문제있네 여기서 j가 끝나면 k list 초기화가 안되네
                 else: # 일치하지 않으면
                     if c and c>=K:
                         common.append(k) # 다 똑같으면 효율이 떨어짐 
                     c = 0
                     k=[]
+        if c and c>=K:
+            common.append(k) # 예전이랑 코드가 똑같이 나오네
+        c = 0
+        k=[]
+        # 일치하지 않았을 때와 j를 다 돌았을때 초기화가 되야함
         i+=1
     return (common)
 #### ed가 붙은 수동태는 list를 리턴해주지 않고 지들 명령어 객체를 돌려줘서 list한 번 더 써줌 ㅅㅂ, 원본이 훼손되지 않음, sort같은 친구들은 원본이 훼손되고 none을 리턴
@@ -34,12 +39,9 @@ commons2 = []
 for i in range(1,N):
     for com in commons:
         temp = check(com,mat[i])
-        print(temp)
         temp_r = check(com, list(reversed(mat[i])))
-        print(temp_r)
         commons2 += (temp + temp_r) 
     commons = commons2[:]
-    print(commons)
     if not commons:
         print('NO')
         break
