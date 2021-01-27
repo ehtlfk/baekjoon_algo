@@ -66,8 +66,10 @@ for i in range(1,N):
         temp = check(com,mat[i]) 
         temp_r = check(com, list(reversed(mat[i]))) # 아 뒤집어서 추가되는구나
         commons2 += (temp + temp_r) 
-    commons = commons2[:]
+    # commons = commons2[:]
+    commons = set([tuple(common) for common in commons2[:]]) # 리스트의 중복 제거, 근데 이거 c 나 자바로는 어떻게 하나...
     commons2 = []
+    print(commons)
     if not commons:
         flag = 0
         break
