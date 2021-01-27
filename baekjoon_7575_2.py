@@ -53,17 +53,18 @@ def check(A,B):
             
     return common
 
-commons = check(mat[0],mat[1])
+# temp= check(mat[0],mat[1])
+# temp_r = check(mat[0],list(reversed(mat[1])))
+# commons = temp+temp_r # 얘네 둘은 뒤집지 않았어
+commons = [mat[0]]
 commons2 = []
 
-flag = 0
-if commons:
-    flag = 1
+flag = 1
 
-for i in range(2,N):
+for i in range(1,N):
     for com in commons:
         temp = check(com,mat[i]) 
-        temp_r = check(com, list(reversed(mat[i])))
+        temp_r = check(com, list(reversed(mat[i]))) # 아 뒤집어서 추가되는구나
         commons2 += (temp + temp_r) 
     commons = commons2[:]
     commons2 = []
