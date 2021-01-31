@@ -35,7 +35,7 @@ c= 0
 k = 0
 # k가 cnt 역할 수행
 stack = ''
-pi_arr = pi(p)
+
 flag = 1
 # 건너뛰기 위해 while문을 활용
 while c < len(o):  
@@ -56,7 +56,6 @@ while c < len(o):
         # 이부분이 오래 걸릴 수 있음
         stack+=p[:k]
         stack+=o[c]
-        c+=pi_arr[k]*flag
         k = 0
     
     c+=1*flag
