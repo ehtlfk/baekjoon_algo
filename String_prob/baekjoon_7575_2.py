@@ -21,7 +21,7 @@ def pi(arr): # 전부 검사에도 쓸 수 있음
     while i < l//2:
         if arr[i] == arr[j]:
             p+=1
-        i+=1
+        i+=1 # 틀린거 같은데?
         j+=1
     return p
 
