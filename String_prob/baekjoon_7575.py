@@ -1,5 +1,5 @@
 import sys
-sys.stdin = open('input.txt')
+sys.stdin = open('baekjoon_7575.txt') # 파일명으로 받을까?
 
 
 N, K = map(int, input().split())
