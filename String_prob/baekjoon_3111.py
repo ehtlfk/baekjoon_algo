@@ -1,8 +1,12 @@
 import sys
 sys.stdin = open('String_prob/baekjoon_3111.txt')
 
-p = input()
-o = input()
+from collections import deque
+
+# p = '#' + input()
+# o = list(reversed(input()))
+p = '#' + 'abc'
+o = list(reversed('abc'*1000))
 
 # return은 p를 o에서 모두 제거
 
@@ -31,34 +35,33 @@ def pi(s):
 
 # 스택 2개를 이용해서 구현, 스택1애 임시 스택2를 복사(주소값만 되는가?)
 # 이문제는 앞뒤로 지우는 문제였다
-c= 0
-k = 0
 # k가 cnt 역할 수행
-stack = ''
 
+stack = []
 flag = 1
 # 건너뛰기 위해 while문을 활용
-while c < len(o):  
-    if k == len(p):
-        k = 0
-        if flag == 1:
-            o = stack + o[c:]
-            c = -1
+c = 0
+# 정방향만 생각
+while o:
+    c= -1
+    for k in range(1,len(p)):
+        if o[c] == p[k*flag]:
+            c-=1
         else:
-            o = o[:c+1] + stack
-            c= 0
-        stack = ''
-        flag *= -1
-        continue
-    if o[c] == p[k]:
-        k+=1
+            break
+    if c == -len(p):
+        for _ in range(len(p)-1):
+            o.pop()
+        # o = list(reversed(o + stack))
+        stack = []
+        flag*=-1
     else:
-        # 이부분이 오래 걸릴 수 있음
-        stack+=p[:k]
-        stack+=o[c]
-        k = 0
-    
-    c+=1*flag
-print(stack + p[:k])
+        stack.append(o.pop())
+print(1)
+if flag == 1:
+    print(''.join(stack))
+else:
+    print(''.join(reversed(stack)))
+
 
 
