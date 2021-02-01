@@ -1,12 +1,13 @@
-import sys
-sys.stdin = open('String_prob/baekjoon_3111.txt')
+# import sys
+# sys.stdin = open('String_prob/baekjoon_3111.txt')
 
 from collections import deque
 
 # p = '#' + input()
 # o = list(reversed(input()))
 p = '#' + 'abc'
-o = list(reversed('abc'*1000))
+# o = list(reversed('abc'*1000))
+o = deque('abc'*100000)
 
 # return은 p를 o에서 모두 제거
 
@@ -37,31 +38,39 @@ def pi(s):
 # 이문제는 앞뒤로 지우는 문제였다
 # k가 cnt 역할 수행
 
-stack = []
+stack_l = deque()
+stack_r = deque()
+# 1이면 left, -1이면 right
 flag = 1
+
 # 건너뛰기 위해 while문을 활용
-c = 0
 # 정방향만 생각
 while o:
-    c= -1
+    if flag ==1:
+        c=0
+    else:
+        c=-1
     for k in range(1,len(p)):
         if o[c] == p[k*flag]:
-            c-=1
+            c+= 1*flag
         else:
             break
-    if c == -len(p):
+    if c == len(p)-1 or  c == -len(p):
         for _ in range(len(p)-1):
-            o.pop()
-        # o = list(reversed(o + stack))
-        stack = []
+            if flag ==1:
+                o.popleft()
+            else:
+                o.pop()
+        o = stack_l + o + stack_r
+        stack_l = deque()
+        stack_r = deque()
         flag*=-1
     else:
-        stack.append(o.pop())
-print(1)
-if flag == 1:
-    print(''.join(stack))
-else:
-    print(''.join(reversed(stack)))
+        if flag == 1:
+            stack_l.append(o.popleft())
+        else:
+            stack_r.appendleft(o.pop())
+print(stack_l + stack_r)
 
 
 
