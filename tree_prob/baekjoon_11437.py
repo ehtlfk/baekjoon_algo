@@ -19,8 +19,8 @@ def bfs(n):
         for _ in range(l):
             temp = queue.popleft()
             v[temp] = 1
-            for i in range(1,n+1):
-                if tree[temp][i] == -1 and v[i]==0:
+            for i in tree[temp]:
+                if v[i] == 0:
                     queue.append(i)
                     p[i] = (d,temp)
     return p
@@ -42,15 +42,15 @@ def lca(n1,n2):
     return p1 
 
 N = int(input())
-# 2N+1개 증가 여기에선 십만 1개
-tree = [[0]*(N+1) for _ in range(N+1)]
+# 2N+1개 증가 여기에선 십만 1개 => 메모리 초과라서 바꿔줘야됨, 링크드로 전환
+tree = [ [] for _ in range(N+1)]
+# 간선 수는 N-1개
 for _ in range(N-1):
     s,f = map(int, input().split())
-    tree[s][f] = -1
-    tree[f][s] = -1
+    tree[s].append(f)
+    tree[f].append(s) 
 
 p_arr = bfs(N)
-
 
 M = int(input())
 for _ in range(M):
