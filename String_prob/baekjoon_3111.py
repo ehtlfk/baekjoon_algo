@@ -1,13 +1,13 @@
-# import sys
-# sys.stdin = open('String_prob/baekjoon_3111.txt')
+import sys
+sys.stdin = open('String_prob/baekjoon_3111.txt')
 
 from collections import deque
 
 # p = deque(input())
 # o = deque(input())
 
-p = 'abc'
-o = deque('asdfgsdfgbc'*100000+'d')
+p = 'ac'
+o = deque('a'*3 + 'c'*3)
 # 이문제는 KMP를 쓰지 않더라도 30만 *25라 천만을 넘지않음, NM =10000000, 그러므로 잘 해주면되는데 문자열 복사가 넘 오래 걸림
 # 링크드 리스트를 쓰면 빨리 될 거 같기는 한데, 구현이 너무 빡셈,
 # 연결 부위가 찾는 문자열이 아님을 증명하면 될듯?
@@ -118,24 +118,53 @@ stack_r = deque()
 l_cursor = 0
 r_curosr = -1
 while True:
-    # stack_l에 값이 있으면 합쳤을때 key가 생기는지 검사
-    if stack_l:
-
+    # stack_l에 값이 있으면 합쳤을때 key가 생기는지 검사, 이거는 keyword의 길이 -1만큼의 제곱만 수행하면 됨
+    # if stack_l:
+    #     for i in range(-len(p)+1,0):
+    #         cnt = 0
+    #         # 길이 필요
+    #         for j in range(len(p)):
+    #             if 0 <i+j < len(stack_l):
+    #                 if stack_l[i+j] == p[cnt]:
+    #                     cnt+=1
+    #                 else:
+    #                     break
+    #             else:
+    #                 if o[len(stack_l) - (i+j)] == p[cnt]:
+    #                     cnt+=1
+    #                 else:
+    #                     break
+    #         else: 
+    #             if cnt == len(p):
+    #                 for _ in range(abs(i)):
+    #                     stack_l.pop()
+    #                 for _ in range(len(p)-abs(i)):
+    #                     o.popleft()
+    #                 break      
     if left(o,p):
-        o.extendleft(stack_l) 
+        # o.extendleft(list(stack_l)[-len(p)+1:])
+        for _ in range(len(p)-1):
+            if stack_l:
+                o.appendleft(stack_l.pop())
+            if stack_r:
+                o.append(stack_r.popleft())
         # 이부분이 진짜 오래걸림
-        stack_l = deque()
-        if stack_r:
+        # stack_l = deque()
+        # if stack_r:
         if right(o,p):
-            o.extend(stack_r) 
+            # o.extend(list(stack_r)[:len(p)-1]) 
+            for _ in range(len(p)):
+                if stack_l:
+                    o.appendleft(stack_l.pop())
+                if stack_r:
+                    o.append(stack_r.popleft())
             # + 연산은 해악이다. 절대 하지말것!
             # 여기가 문제다
-            stack_r = deque()
-            continue
+            # stack_r = deque()
+            
         else:
             break
     else:
         break
-o.extendleft(stack_l) 
-o.extend(stack_r) 
-print(''.join(list(o)))
+stack_l.extend(stack_r) 
+print(''.join(list(stack_l)))

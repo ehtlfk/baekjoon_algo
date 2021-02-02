@@ -1,2 +1,2 @@
-abab
-abaabababc
+abac
+ababacacbcabac
