@@ -10,7 +10,7 @@ def bfs(n):
     queue = deque([1])
     v = [0]*(n+1)
     p = [0]*(n+1)
-    p[1] = (0,0)
+    p[1] = (0,1)
     d = 0
     
     while queue:
@@ -56,7 +56,7 @@ M = int(input())
 for _ in range(M):
     n1, n2 = map(int, input().split())
     print(lca(n1,n2))
-
+print(p_arr)
 
 
 
