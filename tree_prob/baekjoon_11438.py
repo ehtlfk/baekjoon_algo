@@ -4,7 +4,7 @@
 # 다 필요없고, 높이가 같은데 부모가 다른 노드 개선, 부모가 같을 때까지 l값을 이동 없으면 가장 마지막 값 위 어딘가에 있음 => 개선완료
 
 
-import sys, math
+import sys, math, time
 sys.stdin = open('tree_prob/baekjoon_11437.txt')
 
 input = sys.stdin.readline
@@ -49,22 +49,27 @@ def lca(n1,n2):
         return n1
     else:
         # 이부분을 개선해야하는데 이건 memorize?
-        l=0
-        while n1 != n2:
-            if p_arr[n1][l]:
-                d1, n1 = p_arr[n1][l]
-                d2, n2 = p_arr[n2][l]
-                l+=1
-            else:
-                d1, n1 = p_arr[n1][0]
-                d2, n2 = p_arr[n2][0]
+        # 생각해보니 같은 경우가 나와도 그게 최소란 보장이 l이 끝까지 가야 생김
+        # d1을 이용해서 l값을 구할 수 있어
+        # temp로 받아야 한 배열의 값을 다 순환할 수 있음, 값을 변경해서는 안됨
+        l = int((math.log(d1,2)))+1
+
+        for i in range(1,l):
+            _, temp1 = p_arr[n1][i]
+            _, temp2 = p_arr[n2][i]
+            if temp1 == temp2:
+                d1, n1 = p_arr[n1][i-1]
+                d2, n2 = p_arr[n2][i-1]
+                break
+        while n1 != n2: 
+            d1, n1 = p_arr[n1][0]
+            d2, n2 = p_arr[n2][0]
         return n1
         
 
 N = int(input())
 
 tree = [ [] for _ in range(N+1)]
-
 for _ in range(N-1):
     s,f = map(int, input().split(' '))
     tree[s].append(f)
@@ -72,21 +77,29 @@ for _ in range(N-1):
 #이 경우 N >=21이면?
 k=int((math.log(N-1,2)))+1
 
-
+start = time.time()
+# 이 친구가 젤 오래 걸리는데?
+# 트리에 따라 다른데 편향일 경우, bfs는 얼마 안걸림
 p_arr,h= bfs(N,k)
+print("time :", time.time() - start)
 
-# print(p_arr)
-# print(h)
+
+
+start = time.time()
+
 for i in h:
     d= p_arr[i][0][0]+1
     l = int(math.log(d,2))+1
     for l in range(1,l):
         p_arr[i][l] = p_arr[p_arr[i][l-1][1]][l-1]
+print("time :", time.time() - start)
 
+start = time.time()
 M = int(input())
+# 출력값을 모아서 하면 좀 더 빠름
 for _ in range(M):
     n1, n2 = map(int, input().split(' '))
     print(lca(n1,n2))
-
+print("time :", time.time() - start)
 
 
