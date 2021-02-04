@@ -1,6 +1,6 @@
 # 11437보다 4배는 빠르게 해야됨, 근데 희소행렬을 여기에서 쓰는 거 보면 1번을 잘 못 푼듯
 # DFS가 더 빠른가???? 그럴지도?
-# 해볼것 : DFS, memorize, 그 connect하는거?
+# 해볼것 : DFS(생각해보니 1000이상이면 recursion depth에 걸림), memorize, 그 connect하는거?
 # 다 필요없고, 높이가 같은데 부모가 다른 노드 개선, 부모가 같을 때까지 l값을 이동 없으면 가장 마지막 값 위 어딘가에 있음 => 개선완료
 
 # unpacking 할때 시간이 드나?
@@ -34,6 +34,19 @@ def bfs(n,k):
                     depth[i] = d
                     h.append(i)     
     return p,h, depth
+
+def dfs(d, node):
+    if v[node]:
+        return 
+    else:
+        v[node] = 1
+        for i in tree[node]:
+            if v[i] == 0:
+                p_arr[i] = node
+                depth[i] = d+1
+                dfs(d+1,i)
+            
+
 
 def lca(n1,n2):
  
@@ -76,11 +89,16 @@ tree = [ [] for _ in range(N+1)]
 for _ in range(N-1):
     s,f = map(int, input().split(' '))
     tree[s].append(f)
-    tree[f].append(s) 
+    tree[f].append(s)
 #이 경우 N >=21이면?
 k=int((math.log(N-1,2)))+1
 
-
+# dfs
+# v= [0]*(N+1)
+# p_arr= [0]*(N+1)
+# depth = [0]*(N+1)
+# h=[]
+# dfs(0,1)
 
 p_arr,h,depth = bfs(N,k)
 # 사실 이 친구가 젤 오래 걸리는데?
