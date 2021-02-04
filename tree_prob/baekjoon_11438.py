@@ -5,7 +5,8 @@
 
 
 import sys, math, time
-sys.stdin = open('tree_prob/baekjoon_11437.txt')
+# sys.stdin = open('tree_prob/baekjoon_11437.txt')
+sys.stdin = open('test.txt')
 
 input = sys.stdin.readline
 
@@ -14,6 +15,7 @@ from collections import deque
 def bfs(n,k):
     queue = deque([1])
     v = [0]*(n+1)
+    # 이거를 쪼개자 d라는 행렬을 만드는게 더 빠를듯
     p = [ [(0)]*k for _ in range(N+1) ]
     p[1][0] = (-1,1)
     d = 0
@@ -53,7 +55,6 @@ def lca(n1,n2):
         # d1을 이용해서 l값을 구할 수 있어
         # temp로 받아야 한 배열의 값을 다 순환할 수 있음, 값을 변경해서는 안됨
         l = int((math.log(d1,2)))+1
-
         for i in range(1,l):
             _, temp1 = p_arr[n1][i]
             _, temp2 = p_arr[n2][i]
@@ -97,9 +98,12 @@ print("time :", time.time() - start)
 start = time.time()
 M = int(input())
 # 출력값을 모아서 하면 좀 더 빠름
-for _ in range(M):
+ans = [0]*M
+for m in range(M):
     n1, n2 = map(int, input().split(' '))
-    print(lca(n1,n2))
+    ans[m] = lca(n1,n2)
+for a in ans:
+    print(a)
 print("time :", time.time() - start)
 
 
