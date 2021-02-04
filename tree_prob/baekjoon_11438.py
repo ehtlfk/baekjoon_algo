@@ -3,7 +3,7 @@
 # 해볼것 : DFS, memorize, 그 connect하는거?
 # 다 필요없고, 높이가 같은데 부모가 다른 노드 개선, 부모가 같을 때까지 l값을 이동 없으면 가장 마지막 값 위 어딘가에 있음 => 개선완료
 
-
+# unpacking 할때 시간이 드나?
 import sys, math, time
 # sys.stdin = open('tree_prob/baekjoon_11437.txt')
 sys.stdin = open('test.txt')
@@ -65,7 +65,7 @@ def lca(n1,n2):
             d2, n2 = p_arr[n2][0]
         return n1
         
-
+start = time.time()
 N = int(input())
 
 tree = [ [] for _ in range(N+1)]
@@ -76,40 +76,29 @@ for _ in range(N-1):
 #이 경우 N >=21이면?
 k=int((math.log(N-1,2)))+1
 
-start = time.time()
+
 
 p_arr,h= bfs(N,k)
 print("time :", time.time() - start)
 
-start = time.time()
+
 # 사실 이 친구가 젤 오래 걸리는데?
 # 트리에 따라 다른데 편향일 경우, bfs는 얼마 안걸림
 # h는 100,000, l 은 max 16 => 160만
-# for i in h:
-#     d= p_arr[i][0][0]+1 
-#     l = int(math.log(d,2))+1
-#     for l in range(1,l):
-#         p_arr[i][l] = p_arr[p_arr[i][l-1][1]][l-1]
-for l in range(1,k):
-    v = [0] * (N+1)
-    for i in reversed(h):
-        if v[i] == 0:
-            while p_arr[i][l-1] and p_arr[i][l-1][1] !=1:
-                v[i] = 1
-                p_arr[i][l] = p_arr[p_arr[i][l-1][1]][l-1]
-                i = p_arr[i][l-1][1]
+for i in h:
+    d= p_arr[i][0][0]+1 
+    l = int(math.log(d,2))+1
+    for l in range(1,l):
+        p_arr[i][l] = p_arr[p_arr[i][l-1][1]][l-1]
 
+M = int(input())
+# 출력값을 모아서 하면 좀 더 빠름
+ans = [0]*M
+for m in range(M):
+    n1, n2 = map(int, input().split(' '))
+    ans[m] = lca(n1,n2)
+for a in ans:
+    print(a)
 print("time :", time.time() - start)
-
-# start = time.time()
-# M = int(input())
-# # 출력값을 모아서 하면 좀 더 빠름
-# ans = [0]*M
-# for m in range(M):
-#     n1, n2 = map(int, input().split(' '))
-#     ans[m] = lca(n1,n2)
-# for a in ans:
-#     print(a)
-# print("time :", time.time() - start)
 
 
