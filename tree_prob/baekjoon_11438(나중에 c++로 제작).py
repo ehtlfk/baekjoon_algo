@@ -111,6 +111,9 @@ for i in h:
     for l in range(1,l):
         p_arr[i][l] = p_arr[p_arr[i][l-1]][l-1]
 
+
+print("time :", time.time() - start)
+
 M = int(input())
 ans = [0]*M
 for m in range(M):
