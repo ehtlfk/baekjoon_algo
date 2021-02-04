@@ -15,8 +15,7 @@ from collections import deque
 def bfs(n,k):
     queue = deque([1])
     v = [0]*(n+1)
-    # 이거를 쪼개자 d라는 행렬을 만드는게 더 빠를듯
-    p = [ [(0)]*k for _ in range(N+1) ]
+    p = [ [0]*k for _ in range(N+1) ]
     p[1][0] = (-1,1)
     d = 0
     h= []
@@ -30,8 +29,7 @@ def bfs(n,k):
                 if v[i] == 0:
                     queue.append(i)
                     p[i][0] = (d-1,temp)
-                    # 더 좋은 게 있을거야
-                    h.append(i)
+                    h.append(i)     
     return p,h
 
 def lca(n1,n2):
@@ -79,31 +77,39 @@ for _ in range(N-1):
 k=int((math.log(N-1,2)))+1
 
 start = time.time()
-# 이 친구가 젤 오래 걸리는데?
-# 트리에 따라 다른데 편향일 경우, bfs는 얼마 안걸림
+
 p_arr,h= bfs(N,k)
 print("time :", time.time() - start)
 
-
-
 start = time.time()
+# 사실 이 친구가 젤 오래 걸리는데?
+# 트리에 따라 다른데 편향일 경우, bfs는 얼마 안걸림
+# h는 100,000, l 은 max 16 => 160만
+# for i in h:
+#     d= p_arr[i][0][0]+1 
+#     l = int(math.log(d,2))+1
+#     for l in range(1,l):
+#         p_arr[i][l] = p_arr[p_arr[i][l-1][1]][l-1]
+for l in range(1,k):
+    v = [0] * (N+1)
+    for i in reversed(h):
+        if v[i] == 0:
+            while p_arr[i][l-1] and p_arr[i][l-1][1] !=1:
+                v[i] = 1
+                p_arr[i][l] = p_arr[p_arr[i][l-1][1]][l-1]
+                i = p_arr[i][l-1][1]
 
-for i in h:
-    d= p_arr[i][0][0]+1
-    l = int(math.log(d,2))+1
-    for l in range(1,l):
-        p_arr[i][l] = p_arr[p_arr[i][l-1][1]][l-1]
 print("time :", time.time() - start)
 
-start = time.time()
-M = int(input())
-# 출력값을 모아서 하면 좀 더 빠름
-ans = [0]*M
-for m in range(M):
-    n1, n2 = map(int, input().split(' '))
-    ans[m] = lca(n1,n2)
-for a in ans:
-    print(a)
-print("time :", time.time() - start)
+# start = time.time()
+# M = int(input())
+# # 출력값을 모아서 하면 좀 더 빠름
+# ans = [0]*M
+# for m in range(M):
+#     n1, n2 = map(int, input().split(' '))
+#     ans[m] = lca(n1,n2)
+# for a in ans:
+#     print(a)
+# print("time :", time.time() - start)
 
 
