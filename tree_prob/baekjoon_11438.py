@@ -15,10 +15,12 @@ from collections import deque
 def bfs(n,k):
     queue = deque([1])
     v = [0]*(n+1)
-    p = [ [0]*k for _ in range(N+1) ]
-    p[1][0] = (-1,1)
+    p = [ [0]*k for _ in range(n+1) ]
+    p[1][0] = 1
     d = 0
     h= []
+    depth= [0]*(n+1)
+    depth[1] = 0
     while queue:
         l = len(queue)
         d+=1
@@ -28,23 +30,23 @@ def bfs(n,k):
             for i in tree[temp]:
                 if v[i] == 0:
                     queue.append(i)
-                    p[i][0] = (d-1,temp)
+                    p[i][0] = temp
+                    depth[i] = d
                     h.append(i)     
-    return p,h
+    return p,h, depth
 
 def lca(n1,n2):
  
-    d,_ = p_arr[n1][0]
-    d1 = d+1
-    d,_ = p_arr[n2][0]
-    d2 = d+1
+    d1 = depth[n1]
+    d2 = depth[n2]
    
     while d1 != d2:
         if d1 > d2: 
             d1, n1, d2, n2 = d2, n2, d1, n1
         diff = d2 - d1 
         l = int((math.log(diff,2)))
-        d2, n2 = p_arr[n2][l]
+        n2 = p_arr[n2][l]
+        d2 = depth[n2]
     if n1 == n2:
         return n1
     else:
@@ -54,15 +56,17 @@ def lca(n1,n2):
         # temp로 받아야 한 배열의 값을 다 순환할 수 있음, 값을 변경해서는 안됨
         l = int((math.log(d1,2)))+1
         for i in range(1,l):
-            _, temp1 = p_arr[n1][i]
-            _, temp2 = p_arr[n2][i]
+            temp1 = p_arr[n1][i]
+            temp2 = p_arr[n2][i]
             if temp1 == temp2:
-                d1, n1 = p_arr[n1][i-1]
-                d2, n2 = p_arr[n2][i-1]
+                n1 = p_arr[n1][i-1]
+                n2 = p_arr[n2][i-1]
+                d1 = depth[n1]
+                d2 = depth[n2]
                 break
         while n1 != n2: 
-            d1, n1 = p_arr[n1][0]
-            d2, n2 = p_arr[n2][0]
+            n1 = p_arr[n1][0]
+            n2 = p_arr[n2][0]
         return n1
         
 start = time.time()
@@ -78,27 +82,23 @@ k=int((math.log(N-1,2)))+1
 
 
 
-p_arr,h= bfs(N,k)
-print("time :", time.time() - start)
-
-
+p_arr,h,depth = bfs(N,k)
 # 사실 이 친구가 젤 오래 걸리는데?
 # 트리에 따라 다른데 편향일 경우, bfs는 얼마 안걸림
 # h는 100,000, l 은 max 16 => 160만
 for i in h:
-    d= p_arr[i][0][0]+1 
+    # 현재 노드의 높이
+    d= depth[i] 
     l = int(math.log(d,2))+1
     for l in range(1,l):
-        p_arr[i][l] = p_arr[p_arr[i][l-1][1]][l-1]
+        p_arr[i][l] = p_arr[p_arr[i][l-1]][l-1]
 
 M = int(input())
-# 출력값을 모아서 하면 좀 더 빠름
 ans = [0]*M
 for m in range(M):
     n1, n2 = map(int, input().split(' '))
     ans[m] = lca(n1,n2)
-for a in ans:
-    print(a)
-print("time :", time.time() - start)
+# print('\n'.join(map(str,ans)))
 
+print("time :", time.time() - start)
 
