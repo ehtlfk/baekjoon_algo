@@ -18,12 +18,13 @@ def bfs(n,k):
     p = [ [0]*k for _ in range(n+1) ]
     p[1][0] = 1
     d = 0
-    h= []
+    # h= []
     depth= [0]*(n+1)
     depth[1] = 0
     while queue:
         l = len(queue)
         d+=1
+        k = int(math.log(d,2))
         for _ in range(l):
             temp = queue.popleft()
             v[temp] = 1
@@ -32,8 +33,9 @@ def bfs(n,k):
                     queue.append(i)
                     p[i][0] = temp
                     depth[i] = d
-                    h.append(i)     
-    return p,h, depth
+            for j in range(1,k+1):
+                p[temp][j] = p[p[temp][j-1]][j-1]
+    return p, depth
 
 def dfs(d, node):
     if v[node]:
@@ -67,20 +69,22 @@ def lca(n1,n2):
         # 생각해보니 같은 경우가 나와도 그게 최소란 보장이 l이 끝까지 가야 생김
         # d1을 이용해서 l값을 구할 수 있어
         # temp로 받아야 한 배열의 값을 다 순환할 수 있음, 값을 변경해서는 안됨
-        l = int((math.log(d1,2)))+1
-        for i in range(1,l):
-            temp1 = p_arr[n1][i]
-            temp2 = p_arr[n2][i]
-            if temp1 == temp2:
-                n1 = p_arr[n1][i-1]
-                n2 = p_arr[n2][i-1]
+        while n1 != n2: 
+            l = int((math.log(d1,2)))
+            for i in range(1,l+1):
+                temp1 = p_arr[n1][i]
+                temp2 = p_arr[n2][i]
+                if temp1 == temp2:
+                    n1 = p_arr[n1][i-1]
+                    n2 = p_arr[n2][i-1]
+                    d1 = depth[n1]
+                    d2 = depth[n2]
+                    break
+            else:
+                n1 = p_arr[n1][l]
+                n2 = p_arr[n2][l]
                 d1 = depth[n1]
                 d2 = depth[n2]
-                break
-        # 여기에서 메모라이즈를 함
-        while n1 != n2: 
-            n1 = p_arr[n1][0]
-            n2 = p_arr[n2][0]
         return n1
         
 start = time.time()
@@ -101,19 +105,18 @@ k=int((math.log(N-1,2)))+1
 # h=[]
 # dfs(0,1)
 
-p_arr,h,depth = bfs(N,k)
-# 사실 이 친구가 젤 오래 걸리는데?
-# 트리에 따라 다른데 편향일 경우, bfs는 얼마 안걸림
-# h는 100,000, l 은 max 16 => 160만
-for i in h:
-    # 현재 노드의 높이
-    d= depth[i] 
-    l = int(math.log(d,2))+1
-    for l in range(1,l):
-        p_arr[i][l] = p_arr[p_arr[i][l-1]][l-1]
-
+p_arr,depth = bfs(N,k)
 
 print("time :", time.time() - start)
+# 사실 이 친구가 젤 오래 걸리는데?
+# 트리에 따라 다른데 편향일 경우, bfs는 얼마 안걸림
+# # h는 100,000, l 은 max 16 => 160만
+# for i in h:
+#     # 현재 노드의 높이
+#     d= depth[i] 
+#     l = int(math.log(d,2))+1
+#     for l in range(1,l):
+#         p_arr[i][l] = p_arr[p_arr[i][l-1]][l-1]
 
 M = int(input())
 ans = [0]*M
