@@ -77,6 +77,7 @@ def lca(n1,n2):
                 d1 = depth[n1]
                 d2 = depth[n2]
                 break
+        # 여기에서 메모라이즈를 함
         while n1 != n2: 
             n1 = p_arr[n1][0]
             n2 = p_arr[n2][0]
@@ -116,6 +117,7 @@ print("time :", time.time() - start)
 
 M = int(input())
 ans = [0]*M
+memo = []
 for m in range(M):
     n1, n2 = map(int, input().split(' '))
     ans[m] = lca(n1,n2)
