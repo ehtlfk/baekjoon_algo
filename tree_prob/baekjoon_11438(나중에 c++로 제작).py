@@ -17,38 +17,22 @@ def bfs(n,k):
     v = [0]*(n+1)
     p = [ [0]*k for _ in range(n+1) ]
     p[1][0] = 1
-    d = 0
-    # h= []
     depth= [0]*(n+1)
-    depth[1] = 0
     while queue:
-        l = len(queue)
-        d+=1
-        k = int(math.log(d,2))
-        for _ in range(l):
-            temp = queue.popleft()
-            v[temp] = 1
-            for i in tree[temp]:
-                if v[i] == 0:
-                    queue.append(i)
-                    p[i][0] = temp
-                    depth[i] = d
+        # d는 자기 부모의 d+1
+        
+        temp = queue.popleft()
+        v[temp] = 1
+        for i in tree[temp]:
+            if v[i] == 0:
+                queue.append(i)
+                p[i][0] = temp
+                depth[i] = depth[temp]+1
+        if depth[temp]:
+            k = int(math.log(depth[temp],2))
             for j in range(1,k+1):
                 p[temp][j] = p[p[temp][j-1]][j-1]
-    return p, depth
-
-def dfs(d, node):
-    if v[node]:
-        return 
-    else:
-        v[node] = 1
-        for i in tree[node]:
-            if v[i] == 0:
-                p_arr[i] = node
-                depth[i] = d+1
-                dfs(d+1,i)
-            
-
+    return p, depth               
 
 def lca(n1,n2):
  
