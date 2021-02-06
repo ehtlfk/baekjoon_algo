@@ -5,8 +5,8 @@
 
 # unpacking 할때 시간이 드나?
 import sys, math, time
-# sys.stdin = open('tree_prob/baekjoon_11437.txt')
-sys.stdin = open('test.txt')
+sys.stdin = open('tree_prob/baekjoon_11437.txt')
+# sys.stdin = open('test.txt')
 
 input = sys.stdin.readline
 
@@ -16,7 +16,7 @@ def bfs(n,k):
     queue = deque([1])
     v = [0]*(n+1)
     p = [ [0]*k for _ in range(n+1) ]
-    p[1][0] = 1
+    # p[1][0] = 1
     depth= [0]*(n+1)
     while queue:
         # d는 자기 부모의 d+1
@@ -80,7 +80,7 @@ for _ in range(N-1):
     tree[s].append(f)
     tree[f].append(s)
 #이 경우 N >=21이면?
-k=int((math.log(N-1,2)))+1
+k=int((math.log(N-1,2)))
 
 # dfs
 # v= [0]*(N+1)
@@ -90,7 +90,7 @@ k=int((math.log(N-1,2)))+1
 # dfs(0,1)
 
 p_arr,depth = bfs(N,k)
-
+print(p_arr, depth)
 print("time :", time.time() - start)
 # 사실 이 친구가 젤 오래 걸리는데?
 # 트리에 따라 다른데 편향일 경우, bfs는 얼마 안걸림
@@ -108,7 +108,7 @@ memo = []
 for m in range(M):
     n1, n2 = map(int, input().split(' '))
     ans[m] = lca(n1,n2)
-# print('\n'.join(map(str,ans)))
+print('\n'.join(map(str,ans)))
 
 print("time :", time.time() - start)
 

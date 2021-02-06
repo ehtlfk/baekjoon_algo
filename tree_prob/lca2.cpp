@@ -1,35 +1,3 @@
-/////////////////////////////////////////////////////////////////////////////////////////////
-// 기본 제공코드는 임의 수정해도 관계 없습니다. 단, 입출력 포맷 주의
-// 아래 표준 입출력 예제 필요시 참고하세요.
-// 표준 입력 예제
-// int a;
-// float b, c;
-// double d, e, f;
-// char g;
-// char var[256];
-// long long AB;
-// cin >> a;                            // int 변수 1개 입력받는 예제
-// cin >> b >> c;                       // float 변수 2개 입력받는 예제 
-// cin >> d >> e >> f;                  // double 변수 3개 입력받는 예제
-// cin >> g;                            // char 변수 1개 입력받는 예제
-// cin >> var;                          // 문자열 1개 입력받는 예제
-// cin >> AB;                           // long long 변수 1개 입력받는 예제
-/////////////////////////////////////////////////////////////////////////////////////////////
-// 표준 출력 예제
-// int a = 0;                            
-// float b = 1.0, c = 2.0;               
-// double d = 3.0, e = 0.0; f = 1.0;
-// char g = 'b';
-// char var[256] = "ABCDEFG";
-// long long AB = 12345678901234567L;
-// cout << a;                           // int 변수 1개 출력하는 예제
-// cout << b << " " << c;               // float 변수 2개 출력하는 예제
-// cout << d << " " << e << " " << f;   // double 변수 3개 출력하는 예제
-// cout << g;                           // char 변수 1개 출력하는 예제
-// cout << var;                         // 문자열 1개 출력하는 예제
-// cout << AB;                          // long long 변수 1개 출력하는 예제
-/////////////////////////////////////////////////////////////////////////////////////////////
-
 #include<iostream>
 #include<cstdio>
 #include<vector>
@@ -42,37 +10,85 @@ using namespace std;
 
 
 vector<int> vec[MAX];
-int parent[MAX];
 int depth[MAX];
 bool visited[MAX];
+int parent[MAX][17];
 
-void bfs(int parentNode, int currentDepth){
+void bfs(int n){
+	int k;
 	queue<int> q;
-	q.push(parentNode);
+	q.push(1);
 	while(!q.empty()){
-		int qs=q.size();
-		while(qs--){
-			int currentNode=q.front();
-			depth[currentNode]=currentDepth;
-			q.pop();
-			for(int nextNode : vec[currentNode]){
-				if(!depth[nextNode]){
-					parent[nextNode]=currentNode;
-					q.push(nextNode);
-				}
+		// queue.pop占쏙옙 return 占쏙옙占쏙옙 占쏙옙占쏙옙 
+		int currentNode=q.front(); 
+		visited[currentNode] = 1;
+		q.pop();
+		for(int nextNode : vec[currentNode]){
+			if(!visited[nextNode]){
+				parent[nextNode][0]=currentNode;
+				q.push(nextNode);
+				depth[nextNode] = depth[currentNode] + 1;
 			}
 		}
-		currentDepth++;
+		if(depth[currentNode]){
+			k = int(log2(depth[currentNode]));
+			for(int j=1;j<k+1;j++){
+				parent[currentNode][j] = parent[parent[currentNode][j-1]][j-1];
+			}
+		}
 	}
 }
-
+int lca(int n1,int n2) {
+	int d1, d2, diff, k, temp1, temp2;
+	bool flag;
+	d1 = depth[n1];
+	d2 = depth[n2];
+	while (d1!=d2){
+		if(d1 > d2){
+			swap(d1,d2);
+			swap(n1,n2);
+		}
+		diff = d2 - d1;
+		k = int(log2(diff));
+		n2 = parent[n2][k];
+		d2 = depth[n2];
+	}
+	if (n1 == n2) {
+		return n1;
+	}
+	else{
+		while(n1!=n2){
+			k = int(log2(d1));
+			flag = 1;
+			for(int i=1;i<k+1;++i){
+				temp1 = parent[n1][i];
+				temp2 = parent[n2][i];
+				if (temp1 == temp2){
+					flag = 0;
+					n1 = parent[n1][i-1];
+					n2 = parent[n2][i-1];
+					d1 = depth[n1];
+					d2 = depth[n2];
+					break;
+				}
+			}
+			if(flag){
+				n1 = parent[n1][k];
+				n2 = parent[n2][k];
+				d1 = depth[n1];
+				d2 = depth[n2];
+			}
+		}
+		return n1;
+	}
+	
+}
 
 
 int main(int argc, char** argv)
 {
-	freopen("baekjoon_11437.txt", "r", stdin);
+	freopen("test.txt", "r", stdin);
 	int N, M;
-	int K;
 	cin >> N;
     
 	for(int i=0; i<N-1; ++i){
@@ -81,15 +97,12 @@ int main(int argc, char** argv)
 		vec[a].push_back(b);
 		vec[b].push_back(a);
 	}
-	K= int(log2(N-1))+1;
-	cout << K << endl;
-//	bfs(N,K);
-	for( int i=0; i<N+1;i++) {
-		cout << parent[i] << endl;
+	bfs(N);
+	cin >> M;
+	for (int j=0;j<M;++j){
+		int n1, n2;
+		cin >> n1 >> n2;
+//		cout << lca(n1,n2) << endl;
 	}
-	cout << endl;
-		for( int i=0; i<N+1;i++) {
-		cout << depth[i] << endl;
-	}
-	return 0;//정상종료시 반드시 0을 리턴해야합니다.
+	return 0;
 }
