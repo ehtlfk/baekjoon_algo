@@ -26,8 +26,9 @@ for i in range(2,s_num+1):
         s1 = S[i-1]+stops[i-1]
         s2 = S[i-2]+stops[i-2]
         # 정비소를 들리고 d를 안뺌
+        # 아 같은 경우...
         S[i]= min(s1,s2)
-        if s1 < s2:
+        if s1 <= s2:
             ans.add(i)
             d = D[i]
         else:
