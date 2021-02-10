@@ -8,9 +8,12 @@ sys.stdin = open('DP_prob/baekjoon_2839.txt')
 input = sys.stdin.readline
 for _ in range(int(input())):
     N = int(input())
-    cnt = 0
-    
-    if cnt:
-        print(N,':',cnt)
+    s = [3000]*3001
+    s[3] = 1
+    s[5] = 1
+    for i in range(6,N+1):
+        s[i] = min(s[i-3], s[i-5])+1 
+    if s[N]>=3000:
+        print(N, ':', -1)
     else:
-        print(N,':',-1)
+        print(N,':',s[N])
