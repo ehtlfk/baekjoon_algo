@@ -46,6 +46,7 @@ for i in range(1,N):
     if s<=s1 and f1<=f:
         s = s1
         f = f1
+    # 모두 같을 경우
     if f<=s1:
         cnt+=1
         s = s1
