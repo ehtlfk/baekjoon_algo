@@ -11,27 +11,44 @@ for i in range(N):
     s,f = map(int, input().split(' '))
     diff = f-s
     T[i] = (s,f)
+
     # 이부분을 i로 하는 것은 조금 위험함, 문제는 없긴 한데... 이게 N^2라서 시간초과
-    while i>0:
-        diff2 = T[i-1][1] - T[i-1][0]
-        if diff2 > diff:
-            T[i-1], T[i] = T[i], T[i-1]
-        elif diff2 == diff:
-            if T[i-1][0] > T[i][0]:
-                T[i-1], T[i] = T[i], T[i-1]
-        else:
-            break
-        i-=1
-cnt =0
-s =0
-f =0
-for t in T:
-    s1,f1 = t
-    if f <= s1:
-        cnt+=1
-    s=s1
-    f=f1
-print(cnt)
-# s_T = sorted(T)
+    # 정렬: 버블, 퀵 sort, 
+    # while i>0:
+    #     diff2 = T[i-1][1] - T[i-1][0]
+    #     if diff2 > diff:
+    #         T[i-1], T[i] = T[i], T[i-1]
+    #     elif diff2 == diff:
+    #         if T[i-1][0] > T[i][0]:
+    #             T[i-1], T[i] = T[i], T[i-1]
+    #     else:
+    #         break
+    #     i-=1
+# cnt =0
+# s =0
+# f =0
+# for t in T:
+#     s1,f1 = t
+#     if f <= s1:
+#         cnt+=1
+#     s=s1
+#     f=f1
+# print(cnt)
+# s_T = sorted(T, key=lambda x : x[1]-x[0])
+s_T = sorted(T)
 # 앞에 걸 기준으로 정렬 어떻게 하는 거임?
-# print(s_T)
+cnt = 1
+s =s_T[0][0]
+f =s_T[0][1]
+diff = f-s
+for i in range(1,N):
+    s1,f1 = s_T[i]
+    if s<=s1 and f1<=f:
+        s = s1
+        f = f1
+    if f<=s1:
+        cnt+=1
+        s = s1
+        f = f1
+        
+print(cnt)
