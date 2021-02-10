@@ -1,7 +1,7 @@
 # 설탕을 배달하자
 # 3과 5가 존재 최소 봉지의 개수
-# 대표적인 동전문제
-# 이걸 DP로 풀어봄
+# 대표적인 동전문제, 그리디는 5의 배수인 숫자들을 계속 빼서 그 값이 3의 배수이면 값이 나오는 방식으로 하였는데, 과연 DP로는 어케 할까유?
+# 이걸 DP로 풀어봄, **배열을 그리면 술술 풀린다** ,  배열을 그려서 한 칸 움직이면 5나 3이 바뀌는데, 3,5가 적은 값의 개수에서 둘중 작은 것을 골라 거기에 1을 더하면 된다.
 import sys
 
 sys.stdin = open('DP_prob/baekjoon_2839.txt')
@@ -9,18 +9,7 @@ input = sys.stdin.readline
 for _ in range(int(input())):
     N = int(input())
     cnt = 0
-    if N%5 == 0:
-        cnt=(N//5)
-    else:
-        for i in range(N//5,0,-1):
-            if (N-(i*5))%3 == 0:
-                cnt+=i
-                N-=i*5
-                cnt+=N//3
-                break
-        else:
-            if N%3==0:
-                cnt = N//3
+    
     if cnt:
         print(N,':',cnt)
     else:
