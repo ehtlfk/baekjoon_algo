@@ -34,22 +34,25 @@ for i in range(N):
 #     s=s1
 #     f=f1
 # print(cnt)
-# s_T = sorted(T, key=lambda x : x[1]-x[0])
+# s_T = sorted(T, key=lambda x : (x[0],x[1]-x[0]))
 s_T = sorted(T)
 # 앞에 걸 기준으로 정렬 어떻게 하는 거임?
-cnt = 1
-s =s_T[0][0]
-f =s_T[0][1]
-diff = f-s
-for i in range(1,N):
+cnt = 0
+s = 0
+f = 0
+for i in range(N):
     s1,f1 = s_T[i]
-    if s<=s1 and f1<=f:
-        s = s1
-        f = f1
-    # 모두 같을 경우
-    if f<=s1:
+    if t<=s:
         cnt+=1
-        s = s1
-        f = f1
+        if s == f:
+            b = s
+            t = f+1
+        else:
+            t = f 
+    elif f<t:
+        t = f
+
+    # 모두 같을 경우
+
         
 print(cnt)
