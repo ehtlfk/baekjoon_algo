@@ -42,15 +42,16 @@ s = 0
 f = 0
 for i in range(N):
     s1,f1 = s_T[i]
-    if t<=s:
+    if f<=s1:
         cnt+=1
-        if s == f:
-            b = s
-            t = f+1
+        if s1 == f1:
+            s = s1+1
+            f = f1+1
         else:
-            t = f 
-    elif f<t:
-        t = f
+            s = s1
+            f = f1 
+    elif s<=s1 and f1<=f:
+        f = f1
 
     # 모두 같을 경우
 
