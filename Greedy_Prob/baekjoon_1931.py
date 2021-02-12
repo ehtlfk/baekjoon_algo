@@ -34,26 +34,25 @@ for i in range(N):
 #     s=s1
 #     f=f1
 # print(cnt)
-# s_T = sorted(T, key=lambda x : (x[0],x[1]-x[0]))
+# s_T = sorted(T, key=lambda x : (x[0],-x[1]))
 s_T = sorted(T)
 # 앞에 걸 기준으로 정렬 어떻게 하는 거임?
-cnt = 0
-s = 0
-f = 0
-for i in range(N):
+# (0,0), (0,6) 이 2개? 아니 이게 되네...
+cnt = 1
+s = s_T[0][0]
+f = s_T[0][1]
+for i in range(1,N):
     s1,f1 = s_T[i]
     if f<=s1:
         cnt+=1
-        if s1 == f1:
-            s = s1+1
-            f = f1+1
-        else:
-            s = s1
-            f = f1 
-    elif s<=s1 and f1<=f:
+        s = s1
         f = f1
+    elif s < s1 and f1<f:
+        f = f1
+        s = s1
 
     # 모두 같을 경우
 
         
 print(cnt)
+print(s_T)
