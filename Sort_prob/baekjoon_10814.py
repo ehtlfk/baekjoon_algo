@@ -23,6 +23,7 @@ def dnc(arr):
         if int(arr[0][0]) > int(arr[1][0]):
             arr[0], arr[1] = arr[1], arr[0]
         return arr
+        # 짝수 홀수 구분 안해도됨
     return conquer(dnc(arr[:(l//2+l%2)]), dnc(arr[(l//2+l%2):]))
 
 def conquer(arr1, arr2):
