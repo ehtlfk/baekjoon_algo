@@ -10,8 +10,7 @@ def great(a1,s,n):
     else:
         an = 1
         for i in range(s,n+1):
-            an*=(((2**(i-2))+2)%1000000007)
-            an%=1000000007
+            an= (an*(pow(2,i-2,1000000007)+2))%1000000007
         return (an*a1)%1000000007
 
 def gcd(a, b):
@@ -53,8 +52,6 @@ for i in range(line_num):
             print(p)
     elif a[0]==3:
         a1,i,j=a[1], a[2], a[3]
-        if i>j:
-            i,j = j,i
         ni = max(2,i)
         ai = great(a1,3,ni)
         aj = great(ai,ni+1,j+1)
