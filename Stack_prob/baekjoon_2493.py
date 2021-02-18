@@ -6,19 +6,25 @@ input = sys.stdin.readline
 
 # N<=500,000 
 # 낭낭하게 시간초과
+# 설마 높이가 같으면 수신 못하나? 와 N개의 서로 높이가 다른 탑이넹...
 N = int(input())
 
 tower = list(map(int,input().split(' ')))
-
-
-ans = [0]*(N)
-
-for i in range(1,N):
-    if tower[i-1] >= tower[i]:
-        ans[i] = i
+index = list(range(N))
+stack = []
+ans = [0]*N
+temp = index.pop()
+while index:
+    if tower[temp] < tower[temp-1]:
+        ans[temp] = temp
+        while stack:
+            if tower[stack[-1]] < tower[temp-1]:
+                ans[stack.pop()] = temp 
+            else:
+                break
     else:
-        if ans[i-1]:
-            if tower[ans[i-1]-1] >= tower[i]:
-                ans[i] = ans[i-1]
+        stack.append(temp)
+    temp = index.pop()
+
     
-print(ans)
+print(' '.join(map(str,ans)))
