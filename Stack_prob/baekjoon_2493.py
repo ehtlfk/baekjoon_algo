@@ -10,16 +10,15 @@ N = int(input())
 
 tower = list(map(int,input().split(' ')))
 
-i = N-1
+
 ans = [0]*(N)
-while i >= 0:
-    for j in range(i-1,-1,-1):
-        if tower[i] <= tower[j]:
-            for k in range(j+1,i+1):
-                ans[k] = j+1
-            i = j
-            break
+
+for i in range(1,N):
+    if tower[i-1] >= tower[i]:
+        ans[i] = i
     else:
-        i-=1
+        if ans[i-1]:
+            if tower[ans[i-1]-1] >= tower[i]:
+                ans[i] = ans[i-1]
     
 print(ans)
