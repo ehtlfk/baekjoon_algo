@@ -4,7 +4,7 @@ BASE_DIR = os.path.splitext(os.path.realpath(__file__))[0] +  '.txt'
 sys.stdin = open(BASE_DIR)
 input = sys.stdin.readline
 
-# w,h<=50 dfs같은데, 2500개면 할만하지, 되돌아가는게 아니니까, 아. recursion 1000초과..., bfs 도 됨, 이문제의 근본은 visited 배열을 채우는 거임
+# w,h<=50 dfs같은데, 2500개면 할만하지, 되돌아가는게 아니니까, 아. recursion 1000초과..., bfs 도 됨, 이문제의 근본은 visited 배열을 채우는 거임, 근왜 시간초과?
 dx = [0,0,-1,1,1,-1,1,-1]
 dy = [1,-1,0,0,1,-1,-1,1]
 
@@ -26,9 +26,11 @@ def bfs(x,y):
             ny = dy[k]+y
             if 0<=nx<H and 0<=ny<W and mat[nx][ny] == 1 and v[nx][ny] == 0:
                 queue.append((nx,ny))
-ans = []
-W, H = map(int, input().split())
-while W and H:
+
+while True:
+    W, H = map(int, input().split())
+    if W == 0 and H ==0:
+        break
     mat = [ list(map(int, input().split())) for _ in range(H)]
     v = [[0]*W for _ in range(H)]
     cnt =0
@@ -39,4 +41,3 @@ while W and H:
                 cnt+=1
     print(cnt)
 
-    W, H = map(int, input().split())
