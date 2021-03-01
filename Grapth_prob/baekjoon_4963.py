@@ -18,13 +18,14 @@ def dfs(x,y):
 
 def bfs(x,y):
     queue = deque([(x,y)])
+    v[x][y] = 1
     while queue:
         x,y = queue.popleft()
-        v[x][y] = 1
         for k in range(8):
             nx = dx[k]+x
             ny = dy[k]+y
             if 0<=nx<H and 0<=ny<W and mat[nx][ny] == 1 and v[nx][ny] == 0:
+                v[nx][ny] = 1
                 queue.append((nx,ny))
 
 while True:

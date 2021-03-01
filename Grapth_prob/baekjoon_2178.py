@@ -8,7 +8,6 @@ input = sys.stdin.readline
 # 2<=N,M <=100 최소값이면, backtracking해야함, 음. bfs가 빠를거 같은데, dfs도 똑같을 거 같은데 dfs가 구현하기 더 편함, visit행렬에 ++하면 됨
 # 대각선 이동 가능? 인접이라고 했으니까 안되겠네
 
-
 N, M = map(int,input().split())
 # input. strip으로 \n 제거
 mat = [ list(input().strip()) for _ in range(N)]
