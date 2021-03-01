@@ -1,5 +1,5 @@
 import sys, os
-
+from collections import deque
 BASE_DIR = os.path.splitext(os.path.realpath(__file__))[0] +  '.txt'
 sys.stdin = open(BASE_DIR)
 input = sys.stdin.readline
@@ -32,7 +32,26 @@ def dfs(x,y,cnt):
                 v[nx][ny] = 1
                 dfs(nx,ny,cnt+1)
                 v[nx][ny] = 0
+
+def bfs(x,y):
+    queue= deque([(0,0)])
+    while queue:
+        # popleft
+        x,y = queue.popleft()
+        if x == N-1 and y == M-1:
+            return v[x][y]+1
+        for k in range(4):
+            nx = dx[k]+x
+            ny = dy[k]+y
+            if 0<=nx<N and 0<=ny<M and mat[nx][ny] == '1' and v[nx][ny] == 0:
+                v[nx][ny] = v[x][y]+1
+                queue.append((nx,ny))
+        
+
+
+
 v= [[0]*M for _ in range(N)]
-dfs(0,0,1)
-print(mn)
+# dfs(0,0,1)
+# print(mn)
+print(bfs(0,0))
 
