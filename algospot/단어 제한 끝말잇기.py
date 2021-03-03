@@ -17,6 +17,7 @@ sys.stdin = open(BASE_DIR)
 input = sys.stdin.readline
 
 def dfs(x):
+    print(x)
     for i in range(26):
         while adj_arr[x][i] > 0:
             adj_arr[x][i]-=1
@@ -37,17 +38,19 @@ for _ in range(int(input())):
         y = ord(words[i][-1])-sub
         graph[x][y].append( words[i] )
         adj_arr[x][y]+=1
-        indegree[x] +=1
-        outdegree[y] +=1
+        indegree[y] +=1
+        outdegree[x] +=1
     
              
     for i in range(26):
-        if indegree[i] >0:
+        if outdegree[i] >0:
             dfs(i)
-    ans = list(reversed(trail[:-1]))
+    # ans = list(reversed(trail[:-1]))
+    ans = list(reversed(trail))
     print(ans)
     # if len(ans) == len(words):
     for i in range(len(ans)-1):
+        
         print(graph[ans[i]][ans[i+1]].pop())
     # print( ' '.join(ans))
     # else:
