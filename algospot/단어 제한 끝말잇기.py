@@ -7,41 +7,48 @@
 # 오답이유 : dfs(0) 생각해보니 이게 마지막 단어면 의미가 없다. dfsAll을 잊지 말자
 # dfsAll 방문하지 않았으면서 적어도 뒤에 한개는 있는 단어, => 는 당연히 안된다 컴포넌트가 여러개면 틀림
 # 철자를 정점으로 **단어를 간선으로 활용**
+# dag나 dg 나 같고 간선이 다름. 아 순서가 상관없네 그러면...
+# 간선을 이용한다 == degree
+# list 26*26개  graph = [[] for _ in range(26)]*26 
 import sys, os
 
 BASE_DIR = os.path.splitext(os.path.realpath(__file__))[0] +  '.txt'
 sys.stdin = open(BASE_DIR)
 input = sys.stdin.readline
 
-def dfs(x,y):
+def dfs(x):
     for i in range(26):
-        if adj_arr[y][i] != 0:
-            adj_arr[y][i]-=1
-            dfs(y,i)
-    trail.append(graph[x][y])
+        while adj_arr[x][i] > 0:
+            adj_arr[x][i]-=1
+            dfs(i)
+    trail.append(x)
+
 sub = ord('a')
 for _ in range(int(input())):
     N = int(input())
     words = [input().strip() for _ in range(N)]
-    graph = [[0]*26 for _ in range(26)]
+    graph = [[[] for _ in range(26)] for _ in range(26)] 
     adj_arr = [[0]*26 for _ in range(26)]
-    edge = []
     trail =[]
-
+    indegree = [0]*26
+    outdegree = [0]*26
     for i in range(len(words)):
         x = ord(words[i][0])-sub
         y = ord(words[i][-1])-sub
-        graph[x][y] = words[i]
+        graph[x][y].append( words[i] )
         adj_arr[x][y]+=1
+        indegree[x] +=1
+        outdegree[y] +=1
     
              
     for i in range(26):
-        for j in range(26):
-            if adj_arr[i][j]:
-                dfs(i,j)
-
+        if indegree[i] >0:
+            dfs(i)
     ans = list(reversed(trail[:-1]))
-    if len(ans) == len(words):
-        print( ' '.join(ans))
-    else:
-        print('IMPOSSIBLE')
+    print(ans)
+    # if len(ans) == len(words):
+    for i in range(len(ans)-1):
+        print(graph[ans[i]][ans[i+1]].pop())
+    # print( ' '.join(ans))
+    # else:
+    #     print('IMPOSSIBLE')
