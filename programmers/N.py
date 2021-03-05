@@ -30,7 +30,6 @@ def solution(N, number):
 
     if N !=1:
         a[1] = 2
-
     cnt = 0
     while k < K:
         k_list.append(k)
@@ -54,45 +53,74 @@ def solution(N, number):
     #         if 0<y//x<K:
     #             if a[y//x] > i+j+2:
     #                 a[y//x] = i+j+2
-     
-    for x in range(1,30):
-        for y in range(1,30):
-            if 0<x+y<K:
-                if a[x+y] > a[x]+a[y]:
-                    a[x+y] = a[x]+a[y]
-            if 0<y-x<K:
-                if a[y-x] > a[x]+a[y]:
-                    a[y-x] = a[x]+a[y]
-            if 0<x*y<K:
-                if a[x*y] > a[x]+a[y]:
-                    a[x*y] = a[x]+a[y]
-            if 0<y//x<K:
-                if a[y//x] > a[x]+a[y]:
-                    a[y//x] =a[x]+a[y]
+    queue = k_list[:]
+    v = [0]*(32001*9+1)
 
-    for i in range(2,32001):
-        if i%N == 0:
-            a[i] = min ( a[abs(i-N)] + a[N],  a[i//N]+a[N], a[i], a[i-1]+a[1])
-        else:
-            a[i] = min ( a[abs(i-N)] + a[N], a[i], a[i-1]+a[1])
-        if a[i//N] > a[i]+a[N]:  
-            a[i//N] = a[i]+a[N]
-        if a[i-N] > a[i]+a[N]:
-            a[i-N] = a[i]+a[N]
-        if a[i+N] > a[i]+a[N]: 
-            a[i+N] = a[i]+a[N]
-        if a[i*N] > a[i]+a[N]:
-            a[i*N] = a[i]+a[N] 
+    while queue:
+        temp = queue.pop(0)
+        for j in range(len(k_list)):
+            x = temp
+            y = k_list[j]
+            if 0<x+y<K and v[x+y] == 0:
+                v[x+y] = 1
+                queue.append(x+y)
+                if a[x+y] > a[temp]+j+1:
+                    a[x+y] = a[temp]+j+1
+            if 0<y-x<K and v[y-x] == 0:
+                v[y-x] = 1
+                queue.append(y-x)
+                if a[y-x] > a[temp]+j+1:
+                    a[y-x] = a[temp]+j+1
+            if 0<x*y<K and v[x*y] == 0:
+                v[x*y] = 1
+                queue.append(x*y)
+                if a[x*y] > a[temp]+j+1:
+                    a[x*y] = a[temp]+j+1
+            if 0<y//x<K and v[y//x] == 0:
+                v[y//x] = 1
+                queue.append(y//x)
+                if a[y//x] > a[temp]+j+1:
+                    a[y//x] = a[temp]+j+1
+    
+    # for x in range(1,82):
+    #     for y in range(1,82):
+    #         if 0<x+y<K:
+    #             if a[x+y] > a[x]+a[y]:
+    #                 a[x+y] = a[x]+a[y]
+    #         if 0<y-x<K:
+    #             if a[y-x] > a[x]+a[y]:
+    #                 a[y-x] = a[x]+a[y]
+    #         if 0<x*y<K:
+    #             if a[x*y] > a[x]+a[y]:
+    #                 a[x*y] = a[x]+a[y]
+    #         if 0<y//x<K:
+    #             if a[y//x] > a[x]+a[y]:
+    #                 a[y//x] =a[x]+a[y]
+    # print(a[:21])
+    # for i in range(10,32000*9+1):
+    #     if i%N == 0:
+    #         a[i] = min ( a[i-N] + a[N],  a[i//N]+a[N], a[i], a[i-1]+a[1])
+    #     else:
+    #         a[i] = min ( a[i-N] + a[N], a[i], a[i-1]+a[1])
 
-
-
+    #     if a[i//N] > a[i]+a[N]:  
+    #         a[i//N] = a[i]+a[N]
+    #     if a[i-N] > a[i]+a[N]:
+    #         a[i-N] = a[i]+a[N]
+    #     if a[i-1] > a[i]+a[1]:
+    #         a[i-1] = a[i]+a[1]
+    #     if i<32001:
+    #         if a[i+N] > a[i]+a[N]: 
+    #             a[i+N] = a[i]+a[N]
+    #         if a[i*N] > a[i]+a[N]:
+    #             a[i*N] = a[i]+a[N] 
 
     answer = a[number] 
     # if answer > 7: 
     #     answer = -1 
     return answer
-e= 5
+# e= 5
 # print('N = ',e)
 # for i in range(1,21):
 #     print( f'{i}는 {solution(e,i)}')
-print(solution(5,20))
+print(solution(5, 2))
