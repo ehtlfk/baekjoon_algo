@@ -32,7 +32,7 @@ python zip은 zip(v[0],v[1],v[2]) 꼴로 풀어야한다, 즉 두 개 이상의 
 
 
 순열과 조합 확실하게, 생각해보니 recursion 넘는다.
-combinations(range(),K)
+combinations(range(),K), K가 len(range)보다 작아야됨, 크면 빈행렬 리턴
 
 변수명은 배열일 경우 3글자 정도로 하자, 반복문 할당할때 문제 발생
 
