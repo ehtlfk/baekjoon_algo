@@ -25,7 +25,7 @@ def DP(current,cnt,D):
         return
     elif D >= mn or D >= M:
         return 
-    else:
+    else: 
         for comb in combs(C[D],L):
             temp = 0 
             for i in comb:
@@ -40,7 +40,7 @@ def DP(current,cnt,D):
             current|=temp
             
             DP(current,cnt,D+1)
-
+            
 
 for _ in range(int(input())):
     N, K, M, L = map(int, input().split())
