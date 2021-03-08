@@ -6,6 +6,16 @@ sys.stdin = open(BASE_DIR)
 
 # 한 과목도 수강하지 않으면 휴학
 
+# 열리는 학기가 제한인 과목
+def course(arr):
+    count =[0]*N
+    for a in arr:
+        for i in range(N): # 과목수만큼
+            if 1 << i & a:
+                count[i]+=1
+    idx = sorted(range(N), key = lambda x:count[x])
+    return idx
+# index값을 return 해야함, [2,0,1,3]
 for _ in range(int(input())):
     N, K, M, L = map(int, input().split())
     R = [0]*N
@@ -24,5 +34,18 @@ for _ in range(int(input())):
 
     current = 0
     cnt = 0
+    idx = course(C)
+    for m in range(M):
+        if K == 0:
+            break
+        temp = 0
+        for i in idx[:L]:
+            if not current & (1<<i) and (R[i] & current) == R[i]:
+                temp += 1<<i
+                K-=1
+        current|=temp
+        if temp:
+            cnt+=1
+    print(cnt)
     
     
