@@ -13,8 +13,15 @@ def course(arr):
         for i in range(N): # 과목수만큼
             if 1 << i & a:
                 count[i]+=1
-    idx = sorted(range(N), key = lambda x:count[x])
-    return idx
+    
+    return count
+def order_course(num,arr): # 이거 너무 별로인데
+    course_list = []
+    for i in range(N):
+        if num & (1<<i):
+            course_list.append(i)
+    
+    return sorted(course_list,key= lambda x:arr[x])
 # index값을 return 해야함, [2,0,1,3]
 for _ in range(int(input())):
     N, K, M, L = map(int, input().split())
@@ -34,18 +41,27 @@ for _ in range(int(input())):
 
     current = 0
     cnt = 0
-    idx = course(C)
+    course_cnt= course(C)
     for m in range(M):
         if K == 0:
             break
         temp = 0
-        for i in idx[:L]:
-            if not current & (1<<i) and (R[i] & current) == R[i]:
-                temp += 1<<i
-                K-=1
+        for i in order_course(C[m],course_cnt)[:L]:
+            # 선수과목이 0일 경우
+            if not current & (1<<i):
+                if R[i]:
+                    if (R[i] & current) == R[i]:
+                        temp += 1<<i
+                        K-=1
+                else:
+                    temp += 1<<i
+                    K-=1
         current|=temp
         if temp:
             cnt+=1
-    print(cnt)
+    if K:
+        print('IMPOSSIBLE')
+    else:
+        print(cnt)
     
     
