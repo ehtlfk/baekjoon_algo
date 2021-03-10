@@ -10,6 +10,9 @@ input = sys.stdin.readline
 for _ in range(int(input())):
     N = int(input())
     # tree = [[0]*N for _ in range(N)]
+    # for i in range(N):
+    #     tree[i] = list(map(int,input().split()))
+    #     tree[i].extend([0]*(N-i-1))
     tree = [list(map(int,input().split()))+ [0]*(N-i-1) for i in range(N) ] 
     for i in range(1,N):
         for j in range(i+1):
