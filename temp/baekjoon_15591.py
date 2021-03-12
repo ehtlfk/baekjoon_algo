@@ -4,7 +4,7 @@ sys.stdin = open(BASE_DIR)
 input = sys.stdin.readline
 
 
-# 어떤 동영상에서 다른 동영상으로 가는 경로가 반드시 하나 존재,full인가 complete인가 conneted graph
+# 어떤 동영상에서 다른 동영상으로 가는 경로가 반드시 **하나** 존재,full인가 complete인가 conneted graph
 # usado는 모든 usado 중 최솟값
 # 단위가 매우 큼 최적화 필요
 def dfs(s,f):
@@ -15,7 +15,21 @@ def dfs(s,f):
     graph[s][f] = ret
     graph[f][s] = ret
     return ret
-    
+
+def bfs(s,f):
+    v[s] = 1
+    queue = adj_list[s]
+    while queue:
+        temp = queue.pop(0)
+        for next in adj_list[temp]:
+            if graph[s][next] == float('inf') and v[next] == 0:
+                v[next] = 1
+                ret = min(graph[temp][next],graph[s][temp])
+                graph[s][next] = ret
+                graph[next][s] = ret
+                queue.append(next)
+                
+
 N, Q = map(int,input().split())
 graph = [[float('inf')]*5001 for _ in range(5001)]
 adj_list =[[] for _ in range(N+1)]
@@ -29,7 +43,8 @@ for _ in range(N-1):
 for i in range(1,N+1):
     for j in range(i+1,N+1):
         if graph[i][j] == float('inf'):
-            dfs(i,j)
+            v = [0]*(N+1)
+            bfs(i,j)
     
 for _ in range(Q):
     K,V = map(int,input().split())
