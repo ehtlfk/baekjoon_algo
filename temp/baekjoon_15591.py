@@ -9,7 +9,7 @@ input = sys.stdin.readline
 # 단위가 매우 큼 최적화 필요
 def dfs(s,node,mn):
     v[node] = 1
-    for i in range(1,N+1):
+    for i in range(s+1,N+1):
         if v[i] == 0 and graph[node][i] != float('inf'):
             graph[s][i] = min(mn,graph[node][i])
             graph[i][s] = min(mn,graph[node][i])
@@ -25,6 +25,7 @@ for _ in range(N-1):
 for i in range(1,N+1):
     v= [0]*(N+1)
     dfs(i,i,float('inf'))
+    
 for _ in range(Q):
     K,V = map(int,input().split())
     cnt=0
@@ -33,3 +34,6 @@ for _ in range(Q):
             cnt+=1
 
     print(cnt-1)
+
+
+    # 아 node 5000개...
