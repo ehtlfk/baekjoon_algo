@@ -3,6 +3,7 @@ BASE_DIR = os.path.splitext(os.path.realpath(__file__))[0] +  '.txt'
 sys.stdin = open(BASE_DIR)
 input = sys.stdin.readline
 
+import heapq
 
 
 N = int(input())
@@ -20,9 +21,9 @@ for i in range(1,N):
     elif queue[0] > s_course[i][0]:
         cnt+=1
     else:
-        queue.pop(0)
-        
-    queue.append(s_course[i][1])
+        heapq.heappop(queue)
+
+    heapq.heappush(queue,s_course[i][1])
     
 print(cnt)
 
