@@ -16,11 +16,11 @@ s_course = sorted(course, key=lambda x:(x[0],-x[1]))
 cnt = 1
 mn = s_course[0][1]
 for i in range(1,N):
-    if s_course[i-1][0] == s_course[i][0]:
+    if s_course[i-1][0] == s_course[i][0] and s_course[i-1][1]!=s_course[i][1]:
         cnt+=1
     elif mn > s_course[i][0]:
         cnt+=1
-        mn = min(mn,s_course[i][1])
+    mn = min(mn,s_course[i][1])
 print(cnt)
 
     
