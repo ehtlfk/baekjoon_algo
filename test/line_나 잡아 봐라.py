@@ -5,7 +5,7 @@ def bfs(c, b):
     queue = [(b,t)]
     mx = 200000
     v = [(0,0)]*(mx+1)
-    # vc = [0]*(mx+1)
+    vc = [0]*(mx+1) # t일때의 c의 위치를 알기 위해서, 안쓰려면 while ~ for queue.size() t++ 식으로 작성해야됨
     vc[t] = c
     while queue:
         
@@ -33,10 +33,45 @@ def bfs(c, b):
                 queue.append((b+1,t+1))
                 v[b+1] = (v[b][0]+1,t+1)
 
+def bfs2(c,b):
+    v = [[0]*2 for _ in range(200001)] # tuple로 선언하면 변경 불가, 이런 식으로 선언해야 의도한 대로 된다. [[0,0]]*N은 다바뀜
+    t = 0
+    queue = [b]
+    mx = 200001
+    while True:
+        l = len(queue)
+        c += t
+        if c > 200001:
+            return -1
+        if v[c][t%2]:
+            return t
+        
+        for _ in range(l):
+            b = queue.pop(0)
 
+            current_time = (t+1)%2 # t+1을 해줘야 다음 시간임
+            if 0<= 2*b < mx:
+                if v[2*b][current_time] == 0:
+                    queue.append(2*b)
+                    v[2*b][current_time]  = t+1
 
-print(bfs(3,6))
+            if 0 <= b-1 < mx:
+                if v[b-1][current_time] == 0:
+                    queue.append(b-1)
+                    v[b-1][current_time] = t+1
 
+            if 0<= b+1 < mx:
+                if v[b+1][current_time] == 0:
+                    queue.append(b+1)
+                    v[b+1][current_time] = t+1
+        t+=1
+
+print(bfs(11,1))
+print(bfs(11,2))
+print(bfs(6,3))
+print(bfs2(11,1))
+print(bfs2(11,2))
+print(bfs2(6,3))
 # t = 0
 # location =[(11,1)]
 # while True:
