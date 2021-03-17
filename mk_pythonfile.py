@@ -13,3 +13,6 @@ input = sys.stdin.readline''')
         f.write('?')
 if __name__ == "__main__":
     main(sys.argv)
+
+
+# 예제 파일을 백준 사이트에서 긁어 올 수 있음(굳이?)
