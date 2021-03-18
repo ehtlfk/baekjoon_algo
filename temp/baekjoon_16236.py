@@ -18,7 +18,7 @@ N = int(input())
 mat = [list(map(int,input().split())) for _ in range(N)]
 
 def bfs(i,j):
-    dx = [0,1,0,-1] # 우하좌상, 이걸 조절해도, 안됨, 어느 점의 왼쪽은 어느 저의 위쪽일 수도 있음
+    dx = [0,1,0,-1] # 우하좌상, 이걸 조절해도 안됨, 어느 점의 왼쪽은 어느 점의 위쪽일 수도 있음
     dy = [1,0,-1,0]
     t = 0
     queue = deque([(i,j)])
@@ -30,26 +30,23 @@ def bfs(i,j):
         l = len(queue)
         
         mn = 1000
-        mnx = -1
-        mny = -1
+        mnx = 30
+        mny = 30
         # 최소값 찾기
         for tmp in queue:
             x,y = tmp
             if 0 < mat[x][y] < size:
-                if mn > mat[x][y]:
-                    mn = mat[x][y]
+                if mnx > x:
                     mnx = x
                     mny = y
-                elif mn == mat[x][y]:
-                    if mnx > x:
+                elif mnx == x:
+                    if mny > y:
                         mnx = x
-                        mny = y
-                    elif mnx == x:
-                        if mny > y:
-                            mnx = x
-                            mny = y      
-        if mn <1000:
+                        mny = y      
+        if mnx != 30:
             queue = deque([(mnx,mny)])
+
+            print(mnx,mny, t,size )
             l = len(queue)
             feeds[mat[mnx][mny]] -=1
             mat[mnx][mny] = 0
@@ -58,11 +55,12 @@ def bfs(i,j):
                 size+=1
             v = [[0]*N for _ in range(N)]
             v[mnx][mny] = 1
-
-        if l == 0 or sum(feeds[:size]) == 0:
-
+      
+        if size == 5:
+            print('!')
+        if sum(feeds[:size]) == 0:
             return t
-        # 갈 수 있는 경로 찾기
+        # 갈 수 있는 경로 찾기  
         for _ in range(l):
             x,y = queue.popleft()
             for k in range(4):
@@ -83,5 +81,4 @@ for i in range(N):
             mat[i][j] = 0
         elif mat[i][j]:
             feeds[mat[i][j]]+=1
-
 print(bfs(*bs))
