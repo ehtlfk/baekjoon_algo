@@ -27,40 +27,12 @@ def bfs(i,j):
     v = [[0]*N for _ in range(N)]
     v[i][j] = 1
     while True:
-        l = len(queue)
-        
-        mn = 1000
-        mnx = 30
-        mny = 30
-        # 최소값 찾기
-        for tmp in queue:
-            x,y = tmp
-            if 0 < mat[x][y] < size:
-                if mnx > x:
-                    mnx = x
-                    mny = y
-                elif mnx == x:
-                    if mny > y:
-                        mnx = x
-                        mny = y      
-        if mnx != 30:
-            queue = deque([(mnx,mny)])
-
-            print(mnx,mny, t,size )
-            l = len(queue)
-            feeds[mat[mnx][mny]] -=1
-            mat[mnx][mny] = 0
-            cnt[size]-=1
-            if cnt[size] == 0:
-                size+=1
-            v = [[0]*N for _ in range(N)]
-            v[mnx][mny] = 1
-      
-        if size == 5:
-            print('!')
+        l = len(queue) 
         if sum(feeds[:size]) == 0:
             return t
         # 갈 수 있는 경로 찾기  
+        mnx = 30
+        mny = 30
         for _ in range(l):
             x,y = queue.popleft()
             for k in range(4):
@@ -69,6 +41,26 @@ def bfs(i,j):
                 if 0<=nx<N and 0<=ny<N and mat[nx][ny] <= size and v[nx][ny] == 0:
                     v[nx][ny] = 1
                     queue.append((nx,ny))
+                    if 0 < mat[nx][ny] < size:
+                        if mnx > nx:
+                            mnx = nx
+                            mny = ny
+                        elif mnx == nx:
+                            if mny > ny:
+                                mnx = nx
+                                mny = ny 
+        
+        if mnx != 30:
+            queue = deque([(mnx,mny)])
+            l = len(queue)
+            feeds[mat[mnx][mny]] -=1
+            mat[mnx][mny] = 0
+            cnt[size]-=1
+            if cnt[size] == 0:
+                size+=1
+            v = [[0]*N for _ in range(N)]
+            v[mnx][mny] = 1
+            
         t+=1
         
     
