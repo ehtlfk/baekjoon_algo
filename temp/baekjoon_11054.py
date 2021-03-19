@@ -12,22 +12,23 @@ input = sys.stdin.readline
 # 그러면 최대값을 구하고, 최대값을 제외한 상태에서 바이토닉 최장 길이를 구함 => 재귀인가?
 # 각 order에 해당하는 index값을 저장해야하나?
 
+# 현재 위치에서 자신보다 큰 값의 개수를 구함, 메모이제이션을 해야하나?
 
-def bio(k,n): # n: 최대값 idx
-    if k == n:
-        return
+def bio(k,n,seq): # n: 최대값 idx
+    if k == n-1:
+        return 1
     mx = 0
     for i in range(k+1,n):
         if seq[i] == seq[n]:
             continue
         elif seq[k] < seq[i]:
-            mx = max(mx,bio(i,n)+1)
-    return mx
+            mx = max(mx,bio(i,n,seq))
+    return mx+1
 
 N = int(input())
 
-seq = list(map(int,input().split()))
-order = sorted(list(set(seq)))
+seq = list(map(int,input().split())) # mx
+rseq = list(reversed(seq)) # N-1-mx
 
 
 # print(bio(len(order)-1))
@@ -40,32 +41,7 @@ for i in range(N):
         mx_list.append(i)
     elif seq[i] == mx:
         mx_list.append(i)
-
-answer = 0
-for i in mx_list:
-    check = [0]*N
-    check[0] = 1
-    temp = 0
-    for j in range(N):
-        if seq[j] == seq[i] and i!=j:
-            continue
-        if i>j:# 증가
-            if seq[j] > seq[temp]:
-                check[j]= check[temp]+1
-                temp = j
-            else:
-                check[j] = check[temp]
-                temp = j
-        elif i<j:# 감소
-            if seq[j] < seq[temp]:
-                check[j] = check[temp]+1
-                temp = j
-            else:
-                check[j] = check[temp]
-                temp = j 
-        else:
-            check[j] = check[temp]+1
-            temp = j
-        answer = max(answer,max(check))
-    print(check)
-print(answer)
+ans = 0
+for x in mx_list:
+    ans = max(ans,(bio(0,x,seq)+bio(0,N-1-x,rseq)+1))
+print(ans)
