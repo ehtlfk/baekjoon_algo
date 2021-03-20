@@ -44,6 +44,7 @@ combinations(range(),K), K가 len(range)보다 작아야됨, 크면 빈행렬 �
 
 
 sort 함수 lambda 키 2개 s = sorted(s, key = lambda x: (x[1], x[2])), 만약 두 조건의 정렬 순서가 반대면, x[1],-x[2] 숫자일 경우 가능 !!!!
+# 만약에 sort를 구현해보라하면 어쩌지... 내부를 뜯어봐야겠다
 
 
 
@@ -64,12 +65,14 @@ for each, for index를 구분해서 변수가 index인지, val인지를 구분�
 복잡한 반복문을 재귀호출로 간단하게 바꿀 수 있다. 코드가 간결해지므로 실수가 준다. 하지만 메모이제이션 해줘야함 말은 쉽지 구현은 어렵다.
 
 
-python extend는 None을 리턴
+python extend는 None을 리턴, extend time complextity는 확장 길이이다.
 
 min, max를 사용할 시 return 값이 없고 none 값이 들어가면 에러 발생
 
 
 # heap 잘 모름
+heapq, heapq.heappush(arr,num)
+heapq.heappop(arr)
 
 
 
@@ -87,3 +90,5 @@ min, max를 사용할 시 return 값이 없고 none 값이 들어가면 에러 �
 MATH, hash
 
 저울 추 문제? : 그리디?, dp, dfs => dp 저울은 큰 순서대로 정렬하고, 큰 거에서 작은 거로 각 저울 무게로 만들 수 있는 최대 추 값을 리턴함
+
+그리디가 왜 그리디인가, 그리디로 왜 풀릴 수 있는가를 증명

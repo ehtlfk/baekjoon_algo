@@ -47,7 +47,6 @@ seq = list(map(int,input().split())) # mx
 ans = 0
 cache = [[-1]*N for _ in range(N)]
 for x in range(N):
-    
     m1 = 0
     m2 = 0  
     for i in range(x):
