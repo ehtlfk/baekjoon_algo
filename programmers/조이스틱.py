@@ -28,12 +28,12 @@ def solution(name):
             m = r
 
         ori[m] = name[m]
-        print(r,l,''.join(ori),m)
+        # print(r,l,''.join(ori),m)
     return answer
 
 for t in range(int(input())):
-    solution(input())
-print(solution('BBABAAAB'))
+    print(solution(input()))
+# print(solution('BBABAAAB'))
 
 # print(solution('AAABAAAAAB'))
 
