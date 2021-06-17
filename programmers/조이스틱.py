@@ -31,7 +31,8 @@ def solution(name):
         print(r,l,''.join(ori),m)
     return answer
 
-
+for t in range(int(input())):
+    solution(input())
 print(solution('BBABAAAB'))
 
 # print(solution('AAABAAAAAB'))
@@ -40,4 +41,7 @@ print(solution('BBABAAAB'))
 
 
 #BBABAAAB
-# 문제 조건에 정확히는 마지막 인덱스에서 오른쪽커서를 눌러도 첫번째 인덱스에 간다는 말이 없습니다. 그러므로 좀더 정확한 답은 11이라고 볼 수 있습니다. 
+ 
+# 백준 3663이 test case가 더 많음. 같은 코드로 제출했을 시 오답처리됨
+
+# 참고(그리디가 아닌 이유) https://velog.io/@hsw0194/%ED%94%84%EB%A1%9C%EA%B7%B8%EB%9E%98%EB%A8%B8%EC%8A%A4-%EC%A1%B0%EC%9D%B4%EC%8A%A4%ED%8B%B1
