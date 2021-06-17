@@ -2,27 +2,6 @@
 # 완탐을 할 경우 2^20
 # python도 int val = 'a'-97 이 되나?
 # 아 뒤로 가는게 더 빠를 수 있다!, 그리디로 제일 가까운 단어로 가면됨
-def left_or_right(name,ori,answer,m):
-    tmp = ori[:]
-    tmp[m] = name[m]
-    if name == ''.join(tmp):
-        print(answer)
-        return
-    else:
-        r=m
-        l=m
-        while name[r]==tmp[r]:
-            r+=1
-        while name[l]==tmp[r]:
-            l-=1
-        print(l,r)
-        if r<=abs(l):
-            while name[r] != tmp[r]:
-                tmp[r+1] = name[r]
-                r+=1
-            left_or_right(name,tmp,answer,r-1)
-        else:
-            left_or_right(name,tmp,answer,l)
 
 def solution(name):
     answer = 0
@@ -47,10 +26,18 @@ def solution(name):
         elif abs(r-m) <= abs(m-l):
             answer+=abs(r-m)
             m = r
+
         ori[m] = name[m]
         print(r,l,''.join(ori),m)
     return answer
 
+
 print(solution('BBABAAAB'))
 
+# print(solution('AAABAAAAAB'))
+
 # 핵심은 'A'까지의 거리가 더 짧은 곳으로 가면됨, 거리가 같은 경우는 오른쪽으로가든 왼쪽으로 가든 상관이 없음
+
+
+#BBABAAAB
+# 문제 조건에 정확히는 마지막 인덱스에서 오른쪽커서를 눌러도 첫번째 인덱스에 간다는 말이 없습니다. 그러므로 좀더 정확한 답은 11이라고 볼 수 있습니다. 
