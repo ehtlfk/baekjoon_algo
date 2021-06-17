@@ -23,60 +23,37 @@ def left_or_right(name,ori,answer,m):
             left_or_right(name,tmp,answer,r-1)
         else:
             left_or_right(name,tmp,answer,l)
+
 def solution(name):
     answer = 0
     ori = ['A']*len(name)
     asc2 = { chr(i): i-65 if i < 78 else 91-i for i in range(65,91)}
-    
-    left_or_right(name,ori,answer,0)
+    for ch in name:
+        answer+=asc2[ch]
+    # 좌우만 생각하면 됨
+    m = 0
+    ori[m] = name[m]
+    while ''.join(ori) != name:
+        r=m+1
+        l=m-1
+        while name[r%len(name)]==ori[r%len(name)]:
+            r+=1
+        while name[l%len(name)]==ori[l%len(name)]:
+            l-=1
+        
+        if abs(r-m) > abs(m-l):
+            answer+=abs(m-l)
+            m = l
+        elif abs(r-m) < abs(m-l):
+            answer+=abs(r-m)
+            m = r
+        else:
+            answer+=1
+            m = m+1
+        ori[m] = name[m]
+        print(r,l,''.join(ori),m)
     return answer
-    # left_or_right(name,ori,0,answer,asc2)
-    # 가장 긴 'A' sequence를 찾음
-    # 원형으로 이어져서 'A'가 제일 길 수 있음 'AABBAAABBAA'
-    # 전부 A인것도 못잡음
-#     mx = 0
-#     a_finish = 0
-#     i = 0
-#     while i < len(name):
-#         tmp = 0
-#         tmp_j = 0
-#         for j in range(i,len(name)):
-#             if name[j] =='A':
-#                 tmp+=1
-#                 tmp_j = j
-#             else:
-#                 break
-#         i = j+1
-#         if tmp >= mx:
-#             mx = tmp
-#             a_finish = tmp_j
-#     if name[0] == 'A'and name[-1] == 'A' and mx!=len(name):
-#         r=0
-#         while name[r+1]=='A':
-#             r+=1
-#         l=0
-#         while name[l-1]=='A':
-#             l-=1
-#         print(l,r)
-#         if r<abs(l):
-#             for i in range(len(name)+l):
-#                 answer+=asc2[name[i]]+1
-#             answer-=1
-#         else:
-#             for i in range(0,r-len(name),-1):
-#                 answer+=asc2[name[i]]+1
-#             answer-=1
-        
-#     elif mx:
-#         r = max(a_finish-mx, 0) 
-#         l = a_finish-len(name)+1
-#         for i in range(len(name)):
-#             answer+=asc2[name[i]]
-        
-#         answer+= 2*min(r,abs(l)) + max(r,abs(l))
-#     else:
-#         for ch in name:
-#             answer+=asc2[ch]
-#         answer+= len(name)-1
-#     if ori == name:
-#         answer = 0
+
+print(solution('BBB'))
+
+# 핵심은 'A'까지의 거리가 더 짧은 곳으로 가면됨, 거리가 같은 경우는 오른쪽으로가든 왼쪽으로 가든 상관이 없음
