@@ -51,6 +51,6 @@ def solution(name):
         print(r,l,''.join(ori),m)
     return answer
 
-print(solution('BBB'))
+print(solution('BBABAAAB'))
 
 # 핵심은 'A'까지의 거리가 더 짧은 곳으로 가면됨, 거리가 같은 경우는 오른쪽으로가든 왼쪽으로 가든 상관이 없음
