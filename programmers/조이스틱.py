@@ -44,12 +44,9 @@ def solution(name):
         if abs(r-m) > abs(m-l):
             answer+=abs(m-l)
             m = l
-        elif abs(r-m) < abs(m-l):
+        elif abs(r-m) <= abs(m-l):
             answer+=abs(r-m)
             m = r
-        else:
-            answer+=1
-            m = m+1
         ori[m] = name[m]
         print(r,l,''.join(ori),m)
     return answer
