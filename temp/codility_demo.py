@@ -2,13 +2,15 @@ def solution(A):
     # write your code in Python 3.6
     # num = [0]*100001
     mx = max(A)
-
-    # for i in range(len(A)):
-    #     if A[i]>0:
-    #         num[A[i]] = 1
-    for j in range(1,mx+1):
-        if j not in A:
-            return j
+    if mx < 1: 
+        return 1
+    A = set(A)
+    B = set(range(1, mx + 1))
+    D = B - A
+    if len(D) == 0:
+        return mx + 1
+    else:
+        return min(D)
 
 
 # 양의 정수 중에서 A에 포함되지 않는 제일 작은 양의 정수를 찾는 문제, 
@@ -17,3 +19,5 @@ def solution(A):
 
 # 위 코드에서 개선점은 굳이 메모리를 1000001개 쓸 필요가 없다. max값을 구해서 max값 만큼 돌리면 된다.
 # 그럴 경우 시간에서 손해가 발생
+
+# set을 이용하는 방식 : 하지만 mx가 매우 크다면 어차피 min값을 구할 때 오래걸림
