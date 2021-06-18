@@ -7,16 +7,15 @@ def solution(cacheSize, cities):
     d = dict()
     for ori_city in cities:
         city = ori_city.lower() # 대소문자 구분을 하지 않음
-        if cacheSize == 0:
-            answer+=5
-        elif d.get(city,0):
+        if d.get(city,0):
             q.remove(city) # 어떤 식으로 구현되어있는지 모름
             answer+=1
-        elif len(q) == cacheSize:
-            d[q.popleft()] = 0
-            answer+=5
         else:
             answer+=5
-        q.append(city)
-        d[city] = 1
+        if cacheSize:
+            d[city] = 1
+            q.append(city)
+        if len(q) > cacheSize: # q에 추가를 했는데 cacheSize를 넘으면 제거
+            d[q.popleft()] = 0            
+            
     return answer
