@@ -12,6 +12,7 @@ input = sys.stdin.readline''')
     with open(f'{directory}/baekjoon_{N}.txt', 'w') as f:
         f.write('?')
 if __name__ == "__main__":
+    # print('{path} {number}')
     main(sys.argv)
 
 
