@@ -1,5 +1,8 @@
 # M 개 골라서 다 해보는거
 # 시간초과됨
+# M개를 골라서 각자의 최소 거리를 찾아 가는 방식으로 하면 너무 오래걸림
+# 집의 개수는 2N개를 넘지 못하고 치킨집도 13개 미만이므로 26*50 =1300 개의 경우로 각 집에서 모든 치킨집에 대한 거리를 구함
+# 이제 M개를 선택하고 이 M개 중에서 제일 작은 값을 더한 것들의 합중 제일 작은 것이 답
 from itertools import combinations
 from collections import deque
 import sys
@@ -13,24 +16,24 @@ def bfs(chicken, home):
     dx = [1, -1, 0, 0]
     dy = [0, 0, -1, 1]
     dist = 0
+    distance = [{d: 0 for d in chicken} for _ in range(len(home))]
 
-    for h in home:
-        queue = deque([h])
+    for i in range(len(home)):
+        queue = deque([home[i]])
         v = [[0]*N for _ in range(N)]
         while queue:
             x, y = queue.popleft()
             for k in range(4):
                 nx = x+dx[k]
                 ny = y+dy[k]
-                if 0 <= nx < N and 0 <= ny < N and (nx, ny) in chicken:  # 수정필요
-                    dist += v[x][y]+1
-                    queue = deque()
-                    break
-                elif 0 <= nx < N and 0 <= ny < N and v[nx][ny] == 0:
+                # 수정필요
+                if 0 <= nx < N and 0 <= ny < N and v[nx][ny] == 0:
+                    if mat[nx][ny] == '2':
+                        distance[i][(nx, ny)] = v[x][y]+1
                     v[nx][ny] = v[x][y]+1
                     queue.append((nx, ny))
 
-    return dist
+    return distance
 
 
 N, M = map(int, input().split())
@@ -46,10 +49,18 @@ for i in range(N):
             chicken.append((i, j))
         elif mat[i][j] == '1':
             home.append((i, j))
-answer = float('inf')
 
+
+# for choose_chicken in choose_chickens:
 choose_chickens = combinations(chicken, M)
-
+dists = bfs(chicken, home)
+answer = float('inf')
 for choose_chicken in choose_chickens:
-    answer = min(answer, bfs(choose_chicken, home))
+    tmp = 0
+    for i in range(len(home)):
+        mn = float('inf')
+        for cc in choose_chicken:
+            mn = min(mn, dists[i][cc])
+        tmp += mn
+    answer = min(tmp, answer)
 print(answer)
