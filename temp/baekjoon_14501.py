@@ -1,3 +1,4 @@
+# 걸리는 일수가 '1'이면 그날 처리한다는 뜻
 import sys
 import os
 BASE_DIR = os.path.splitext(os.path.realpath(__file__))[0] + '.txt'
