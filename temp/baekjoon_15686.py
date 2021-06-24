@@ -5,6 +5,9 @@
 # 이제 M개를 선택하고 이 M개 중에서 제일 작은 값을 더한 것들의 합중 제일 작은 것이 답
 
 # 모든 치킨 집의 거리를 왜 bfs 로 구함 ㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋ 그냥 맨해튼 거리 구하면 되는데
+
+# dictionary 써서 느린거 같음
+# comb를 만들어서 dict을 사용하지 않으면 빠를듯
 from itertools import combinations
 from collections import deque
 import sys
