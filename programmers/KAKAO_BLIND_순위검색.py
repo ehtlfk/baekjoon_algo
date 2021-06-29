@@ -5,6 +5,7 @@
 # 교집합은 어떻게 빠르게 구하는가?
 # 1. 미리 교집합의 개수를 다 구해놓는다 : 범용성이 별로
 # 2. id를 부여해서 교집합을 구한다
+# 3. 미리 정렬해서 binary search한다
 
 
 # value와 인덱스를 가지고 정렬해서 가장 높은 숫자의 인덱스를 구하기
@@ -12,6 +13,8 @@ def solution(info, query):
     answer = []
     d = dict()
     points = [0]*len(info)
+    info.sort(key=lambda x:int(x.split()[-1]),reverse=True)
+    print(info)
     for i in range(len(info)):
         info_split = info[i].split()
         for col in info_split[:-1]:
@@ -35,7 +38,7 @@ def solution(info, query):
         if food != '-':
             tmp = tmp&d[food]
 
-        for i in tmp:
+        for i in tmp: # query * info = 5억
             if points[i] >=int(point):
                 cnt+=1
         answer.append(cnt)
