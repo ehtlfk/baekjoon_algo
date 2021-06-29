@@ -8,38 +8,40 @@
 # 3. 미리 정렬해서 binary search한다
 
 
+# 2개의 문자열이 같은 지를 보는 것도 오래걸리므로 문자로 바꾸자
 # value와 인덱스를 가지고 정렬해서 가장 높은 숫자의 인덱스를 구하기
+def check(code,d):
+    ret = []
+    for key in d.keys():
+        for k in range(len(key)):
+            if code[k] == '*':
+                continue
+            if key[k] != code[k]:
+                break
+        else:
+            ret.append(key)
+    return ret
 def solution(info, query):
     answer = []
-    d = dict()
-    points = [0]*len(info)
-    info.sort(key=lambda x:int(x.split()[-1]),reverse=True)
-    print(info)
-    for i in range(len(info)):
-        info_split = info[i].split()
-        for col in info_split[:-1]:
-            if d.get(col,0):
-                d[col].add(i)
-            else:
-                d[col]=set([i])
-        points[i] = int(info_split[-1])
-    
+    new_info = dict()
+    d = {'cpp':'0','java':'1','python':'2','backend':'0','frontend':'1','junior':'0','senior':'1','pizza': '0', 'chicken':'1','-':'*'}
+    for i in info:
+        tmp = ''
+        i_split = i.split()
+        code = ''.join([d[i_split[0]],d[i_split[1]],d[i_split[2]],d[i_split[3]]])
+        if new_info.get(code,0):
+            new_info[code].append(int(i_split[4]))
+        else:
+            new_info[code] = [int(i_split[4])]
     for q in query:
         q_split = q.split(' and ')
         food, point = q_split[3].split()
+        code = ''.join([d[q_split[0]],d[q_split[1]],d[q_split[2]],d[food]])
+        
+        
+        ret = check(code,new_info)
         cnt = 0
-        tmp = { i for i in range(len(info))}
-        if q_split[0] != '-':
-            tmp = d[q_split[0]]
-        if q_split[1] != '-':
-            tmp = tmp&d[q_split[1]]
-        if q_split[2] != '-':
-            tmp = tmp&d[q_split[2]]
-        if food != '-':
-            tmp = tmp&d[food]
-
-        for i in tmp: # query * info = 5억
-            if points[i] >=int(point):
-                cnt+=1
+        for r in ret:
+            cnt+=len([new for new in new_info[r] if new>=int(point)])
         answer.append(cnt)
     return answer
