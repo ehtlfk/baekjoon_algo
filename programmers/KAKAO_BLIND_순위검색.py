@@ -3,23 +3,40 @@
 # 하지만 오래 걸린다
 # 지원자를 기준으로 하는 것이 아닌 항목(2가지 씩이기 때문)을 기준으로 교집합을 계속 구하면 될 것이다.
 # 교집합은 어떻게 빠르게 구하는가?
+# 1. 미리 교집합의 개수를 다 구해놓는다 : 범용성이 별로
+# 2. id를 부여해서 교집합을 구한다
 
+
+# value와 인덱스를 가지고 정렬해서 가장 높은 숫자의 인덱스를 구하기
 def solution(info, query):
     answer = []
-    # d = dict()
-    d = [0]*len(info)
+    d = dict()
+    points = [0]*len(info)
     for i in range(len(info)):
         info_split = info[i].split()
-        d[i] = info_split
-    d.sort(key=lambda x:int(x[4]),reverse=True)
+        for col in info_split[:-1]:
+            if d.get(col,0):
+                d[col].add(i)
+            else:
+                d[col]=set([i])
+        points[i] = int(info_split[-1])
+    
     for q in query:
         q_split = q.split(' and ')
         food, point = q_split[3].split()
         cnt = 0
-        for person in d:
-            if int(person[4]) < int(point):
-                break
-            if (person[0] == q_split[0] or q_split[0] == '-') and (person[1] == q_split[1] or q_split[1] =='-')  and (person[2] == q_split[2] or q_split[2] =='-') and (person[3] == food or food == '-'):
+        tmp = { i for i in range(len(info))}
+        if q_split[0] != '-':
+            tmp = d[q_split[0]]
+        if q_split[1] != '-':
+            tmp = tmp&d[q_split[1]]
+        if q_split[2] != '-':
+            tmp = tmp&d[q_split[2]]
+        if food != '-':
+            tmp = tmp&d[food]
+
+        for i in tmp:
+            if points[i] >=int(point):
                 cnt+=1
         answer.append(cnt)
     return answer
