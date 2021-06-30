@@ -58,8 +58,8 @@ def solution(info, query):
         for key in all_query.keys():
             if check(code,key):
                 all_query[key].append(int(i_split[4]))
-        for val in all_query.values():
-            val.sort(reverse=True)
+    for val in all_query.values():
+        val.sort(reverse=True)
     for q in query:
         
         q_split = q.split(' and ')
