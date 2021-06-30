@@ -37,9 +37,11 @@ def solution(info, query):
         q_split = q.split(' and ')
         food, point = q_split[3].split()
         code = ''.join([d[q_split[0]],d[q_split[1]],d[q_split[2]],d[food]])
+        point_info = dict()
+        for key,val in new_info.items(): 
+            point_info[key] = [v for v in val if v>=int(point)]
         
-        
-        ret = check(code,new_info)
+        ret = check(code,point_info)
         cnt = 0
         for r in ret:
             cnt+=len([new for new in new_info[r] if new>=int(point)])
