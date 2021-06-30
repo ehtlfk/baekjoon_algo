@@ -43,7 +43,6 @@ def solution(info, query):
         
         ret = check(code,point_info)
         cnt = 0
-        for r in ret:
-            cnt+=len([new for new in new_info[r] if new>=int(point)])
-        answer.append(cnt)
+        
+        answer.append(len(ret))
     return answer
