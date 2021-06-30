@@ -10,39 +10,62 @@
 
 # 2개의 문자열이 같은 지를 보는 것도 오래걸리므로 문자로 바꾸자
 # value와 인덱스를 가지고 정렬해서 가장 높은 숫자의 인덱스를 구하기
-def check(code,d):
-    ret = []
-    for key in d.keys():
-        for k in range(len(key)):
-            if code[k] == '*':
-                continue
-            if key[k] != code[k]:
-                break
+def bs(lists,p):
+    l = 0
+    r = len(lists)-1
+    while l<=r:
+        m = (l+r)//2
+        if lists[m] <p:
+            r = m-1
         else:
-            ret.append(key)
-    return ret
+            l = m+1
+    return l
+def perm(d,n,k,ret,v):
+    if n == k:
+        d[''.join(ret)] = []
+    else:
+        for i in range(len(v[k])):
+            if v[k][i] == 0:
+                v[k][i] = 1
+                ret[k] = str(i)
+                perm(d,n,k+1,ret,v)
+                v[k][i] = 0
+def check(code,query):
+    
+    for k in range(len(query)):
+        if query[k] == '0':
+            continue
+        if query[k] != code[k]:
+            return False
+    else:
+        return True
+
 def solution(info, query):
     answer = []
     new_info = dict()
-    d = {'cpp':'0','java':'1','python':'2','backend':'0','frontend':'1','junior':'0','senior':'1','pizza': '0', 'chicken':'1','-':'*'}
+    all_query = dict()
+    d = {'cpp':'1','java':'2','python':'3','backend':'2','frontend':'1','junior':'2','senior':'1','pizza': '2', 'chicken':'1','-':'0'}
+    
+    ret = [0]*4
+    v = [[0]*3 for _ in range(4)]
+    v[0].append(0)
+    perm(all_query,4,0,ret,v)
+    
     for i in info:
-        tmp = ''
         i_split = i.split()
         code = ''.join([d[i_split[0]],d[i_split[1]],d[i_split[2]],d[i_split[3]]])
-        if new_info.get(code,0):
-            new_info[code].append(int(i_split[4]))
-        else:
-            new_info[code] = [int(i_split[4])]
+    
+        for key in all_query.keys():
+            if check(code,key):
+                all_query[key].append(int(i_split[4]))
+        for val in all_query.values():
+            val.sort(reverse=True)
     for q in query:
+        
         q_split = q.split(' and ')
         food, point = q_split[3].split()
         code = ''.join([d[q_split[0]],d[q_split[1]],d[q_split[2]],d[food]])
-        point_info = dict()
-        for key,val in new_info.items(): 
-            point_info[key] = [v for v in val if v>=int(point)]
         
-        ret = check(code,point_info)
-        cnt = 0
-        
-        answer.append(len(ret))
+        answer.append(bs(all_query[code],int(point)))
+
     return answer
