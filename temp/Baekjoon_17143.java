@@ -22,7 +22,10 @@ class Baekjoon_17143 {
         for (int i=0; i<M; ++i) {
             StringTokenizer st = new StringTokenizer(bReader.readLine()," ");
             for (int j=0; j<5; ++j){
-                arr[i][j] = Integer.parseInt(st.nextToken());
+                int num = Integer.parseInt(st.nextToken());
+                if (j<2){
+                    arr[i][j] = num-1;
+                } else arr[i][j] = num;
             }   
         } 
         
@@ -30,50 +33,71 @@ class Baekjoon_17143 {
 
         int[][] map = new int[R][C];
         for (int i=0; i<arr.length; ++i) {
-            map[arr[i][0]-1][arr[i][1]-1] = i+1; // 0번 상어는 안됨, s:속도, d:방향, z:크기
+            map[arr[i][0]][arr[i][1]] = i+1; // 0번 상어는 안됨, s:속도, d:방향, z:크기
             // 벽꿍하면 뒤로 돌아감, 마지막 위치가 벽 앞일 경우 방향을 반대로 해서 속도만큼 이동
         }
 
         for (int p=0; p<C; ++p) {
             for (int r=0; r<R; ++r) {
-                int sangu = map[p][r]-1;
-                if (sangu!=-1) {
-                    answer+=arr[sangu][4];
-                    map[p][r] = 0;
-                    arr[sangu] = null;
+                int sangu = map[r][p];
+                if (sangu!=0) {
+                    answer+=arr[sangu-1][4];
+                    map[r][p] = 0;
+                    arr[sangu-1] = null;
                 }
             }
             // 상어 이동
             for (int j = 0; j<arr.length;++j) {
                 if (arr[j] != null) {
+                    map[arr[j][0]][arr[j][1]] = 0;
                     int s = arr[j][2];
                     int d = arr[j][3];
-                    while (0<=arr[j][0] && arr[j][0]<R && 0<= arr[j][1] && arr[j][1]<C){
+                    while (s > 0) {
                         switch (d) {
-                            case 1: 
-                                arr[j][0]-=s%(2*R-2);
-                                if (arr[j][0]<0){
+                            case 1:
+                                arr[j][0]-=s%(2*R-2);                                
+                                if (arr[j][0]<0) {
                                     d = 2;
                                     s = arr[j][0]*-1;
-                                }
+                                    arr[j][0] = 0;
+                                } else s =0;
                                 break;
                             case 2:
                                 arr[j][0]+=s%(2*R-2);
                                 if (arr[j][0]>=R) {
                                     d = 1;
-                                }
+                                    s = (arr[j][0]-R+1);
+                                    arr[j][0] = R-1;
+                                } else s = 0;
                                 break;
+                            case 3:
+                                arr[j][1]+=s%(2*C-2);
+                                if (arr[j][1]>=C) {
+                                    d = 4;
+                                    s = arr[j][1]-C+1;
+                                    arr[j][1] = C-1;
+                                } else s = 0;
+                            case 4:
+                                arr[j][1]-=s%(2*C-2);
+                                if (arr[j][1]<0) {
+                                    d = 3;
+                                    s = arr[j][1]*-1;
+                                    arr[j][1] = 0;
+                                } else s = 0;
                         }
                     }
                     
+                    int mx = map[arr[j][0]][arr[j][1]];
+                    if ( mx == 0 ) {
+                        map[arr[j][0]][arr[j][1]] = j+1;
+                    } else if (mx < j && arr[mx][4] < arr[j][4]) {
+                        arr[mx] = null;
+                        map[arr[j][0]][arr[j][1]] = j+1;
+                    } 
                 }
             }
         }
-
-        
-        
-
-        System.out.println(Arrays.toString(arr[0]));
+        System.out.println(answer);
       
     }
 }
