@@ -86,7 +86,7 @@ class Baekjoon_17143 {
                                 } else s = 0;
                         }
                     }
-                    
+                    arr[j][3] = d;
                     int mx = map[arr[j][0]][arr[j][1]];
                     if ( mx == 0 ) {
                         map[arr[j][0]][arr[j][1]] = j+1;
