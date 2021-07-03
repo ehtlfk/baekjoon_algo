@@ -6,7 +6,6 @@ import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.io.FileInputStream;
 import java.util.StringTokenizer;
-import java.util.Arrays;
 
 class Baekjoon_17143 {
     public static void main(String args[]) throws Exception {
@@ -91,7 +90,7 @@ class Baekjoon_17143 {
                     int mx = map[arr[j][0]][arr[j][1]];
                     if ( mx == 0 ) {
                         map[arr[j][0]][arr[j][1]] = j+1;
-                    } else if (mx < j && arr[mx][4] < arr[j][4]) {
+                    } else if (mx < j && arr[mx-1][4] < arr[j][4]) {
                         arr[mx] = null;
                         map[arr[j][0]][arr[j][1]] = j+1;
                     } 
