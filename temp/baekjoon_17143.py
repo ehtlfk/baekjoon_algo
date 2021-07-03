@@ -1,5 +1,5 @@
 # 2마리 이상의 상어일 경우 가장 큰 상어가 다잡아먹음 -> 크기가 같은 경우는? 상어의 방향을 정해야함
-import sys, os
+import sys,os
 BASE_DIR = os.path.splitext(os.path.realpath(__file__))[0] +  '.txt'
 sys.stdin = open(BASE_DIR)
 input = sys.stdin.readline
@@ -25,31 +25,44 @@ for p in range(C):
     
     for j in range(M):
         if arr[j]!=None:
-            mat[arr[j][0]-1][arr[j][1]-1] = -1
+            if mat[arr[j][0]-1][arr[j][1]-1] == j:
+                mat[arr[j][0]-1][arr[j][1]-1] = -1 # 이게 이거 이전의 샤크가 사라질 수 있음
+            
             s = arr[j][2]
             d = arr[j][3]
             while s>0:
-                s-=1
                 if d == 1:
-                    arr[j][0]-=1
-                    if arr[j][0] == 0:
-                        d = 2
-                        arr[j][0] += 2
+                    arr[j][0]-=(s%(2*R-2))
+                    if arr[j][0] <= 0:
+                        d =2
+                        s = arr[j][0]*-1+1
+                        arr[j][0] = 1
+                    else:
+                        break
                 elif d == 2:
-                    arr[j][0]+=1
-                    if arr[j][0] == R+1:
+                    arr[j][0]+=(s%(2*R-2))
+                    if arr[j][0] > R:
                         d = 1
-                        arr[j][0] -= 2
+                        s = arr[j][0]-R
+                        arr[j][0] = R
+                    else:
+                        break
                 elif d == 3:
-                    arr[j][1]+=1
-                    if arr[j][1] == C+1:
+                    arr[j][1]+=(s%(2*C-2))
+                    if arr[j][1]>C:
                         d = 4
-                        arr[j][1] -= 2
+                        s = arr[j][1]-C
+                        arr[j][1] = C
+                    else:
+                        break
                 elif d == 4:
-                    arr[j][1]-=1
-                    if arr[j][1] == 0:
+                    arr[j][1]-=(s%(2*C-2))
+                    if arr[j][1] <= 0:
                         d = 3
-                        arr[j][1] += 2
+                        s = arr[j][1]*-1+1
+                        arr[j][1] = 1
+                    else:
+                        break
             arr[j][3] = d
             mx = mat[arr[j][0]-1][arr[j][1]-1]
             if mx == -1:
@@ -60,5 +73,6 @@ for p in range(C):
                     mat[arr[j][0]-1][arr[j][1]-1] = j
                 else:
                     arr[j] = None
+            else:
+                mat[arr[j][0]-1][arr[j][1]-1] = j
 print(answer)
-    
