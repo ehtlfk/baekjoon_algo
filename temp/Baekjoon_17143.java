@@ -95,7 +95,7 @@ class Baekjoon_17143 {
                         map[arr[j][0]][arr[j][1]] = j+1;
                     } else {
                         // 이미 이동이 끝난 상어가 있고 자기보다 크기가 크면 
-                        arr[mx-1] = null;
+                        arr[j] = null;
                     }
                 }
             }
