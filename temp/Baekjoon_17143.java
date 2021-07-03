@@ -90,10 +90,13 @@ class Baekjoon_17143 {
                     int mx = map[arr[j][0]][arr[j][1]];
                     if ( mx == 0 ) {
                         map[arr[j][0]][arr[j][1]] = j+1;
-                    } else if (mx < j && arr[mx-1][4] < arr[j][4]) {
-                        arr[mx] = null;
+                    } else if (mx-1 < j && arr[mx-1][4] < arr[j][4]) {
+                        arr[mx-1] = null;
                         map[arr[j][0]][arr[j][1]] = j+1;
-                    } 
+                    } else {
+                        // 이미 이동이 끝난 상어가 있고 자기보다 크기가 크면 
+                        arr[mx-1] = null;
+                    }
                 }
             }
         }
