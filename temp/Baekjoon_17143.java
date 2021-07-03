@@ -44,6 +44,7 @@ class Baekjoon_17143 {
                     answer+=arr[sangu-1][4];
                     map[r][p] = 0;
                     arr[sangu-1] = null;
+                    break; // 가장 땅에 가까운 친구
                 }
             }
             // 상어 이동
