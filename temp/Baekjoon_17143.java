@@ -28,20 +28,20 @@ class Baekjoon_17143 {
             }   
         } 
         
-        long answer = 0;
+        int answer = 0;
 
-        int[][] map = new int[R][C];
+        int[][] mat = new int[R][C];
         for (int i=0; i<arr.length; ++i) {
-            map[arr[i][0]][arr[i][1]] = i+1; // 0번 상어는 안됨, s:속도, d:방향, z:크기
-            // 벽꿍하면 뒤로 돌아감, 마지막 위치가 벽 앞일 경우 방향을 반대로 해서 속도만큼 이동
+            mat[arr[i][0]][arr[i][1]] = i+1; // 0번 상어는 안됨, s:속도, d:방향, z:크기
+            // 벽꿍하면 뒤로 돌아감, 위치가 벽 넘어갈 경우 방향을 반대로 해서 속도만큼 이동
         }
 
         for (int p=0; p<C; ++p) {
             for (int r=0; r<R; ++r) {
-                int sangu = map[r][p];
+                int sangu = mat[r][p];
                 if (sangu!=0) {
                     answer+=arr[sangu-1][4];
-                    map[r][p] = 0;
+                    mat[r][p] = 0;
                     arr[sangu-1] = null;
                     break; // 가장 땅에 가까운 친구
                 }
@@ -49,7 +49,10 @@ class Baekjoon_17143 {
             // 상어 이동
             for (int j = 0; j<arr.length;++j) {
                 if (arr[j] != null) {
-                    map[arr[j][0]][arr[j][1]] = 0;
+                    
+                    if (mat[arr[j][0]][arr[j][1]] == j+1) {
+                        mat[arr[j][0]][arr[j][1]] = 0;
+                    } 
                     int s = arr[j][2];
                     int d = arr[j][3];
                     while (s > 0) {
@@ -87,17 +90,19 @@ class Baekjoon_17143 {
                         }
                     }
                     arr[j][3] = d;
-                    int mx = map[arr[j][0]][arr[j][1]];
+                    int mx = mat[arr[j][0]][arr[j][1]]; 
                     if ( mx == 0 ) {
-                        map[arr[j][0]][arr[j][1]] = j+1;
+                        mat[arr[j][0]][arr[j][1]] = j+1;
                     } else if (mx-1 < j ) {
                         if (arr[mx-1][4] < arr[j][4]) {
                             arr[mx-1] = null;
-                            map[arr[j][0]][arr[j][1]] = j+1;
+                            mat[arr[j][0]][arr[j][1]] = j+1;
                         } else {
                             arr[j] = null;
                         }
-                    } 
+                    } else {
+                        mat[arr[j][0]][arr[j][1]] = j+1;
+                    }
                         // 이미 이동이 끝난 상어가 있고 자기보다 크기가 크면 
                         // 근데 이동해야한다면?
                         // 이건 작은 경우                
