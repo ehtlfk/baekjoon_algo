@@ -44,24 +44,27 @@ public class Baekjoon_19238 {
         start[0] = Integer.parseInt(startP[0])-1;
         start[1] = Integer.parseInt(startP[1])-1;
 
-        int[][] arr = new int[1][4];
+        int[][] arr = new int[M][4];
         for (int i=0; i<M; ++i) {
             StringTokenizer st = new StringTokenizer(bReader.readLine()," ");
             for (int j=0; j<4; ++j){
-                arr[0][j] = Integer.parseInt(st.nextToken())-1;
+                arr[i][j] = Integer.parseInt(st.nextToken())-1;
             }
-            map[arr[0][0]][arr[0][1]] = i+2;
-            map[arr[0][2]][arr[0][3]] = -(i+2);   
+            map[arr[i][0]][arr[i][1]] = i+2;
+            // map[arr[i][2]][arr[i][3]] = -(i+2);   
         }
         
         int[] ret;
+        int fx,fy;
         while (M>0) {
-            ret = bfs(start, map, arr,-1,F);
+            ret = bfs(start, map, arr,-1,-1,F);
             if (ret[0]!=-1) {
                 F -= ret[0];
                 start[0] = ret[1];
                 start[1] = ret[2];
-                ret = bfs(start, map, arr, -1*ret[3],F);
+                fx = arr[ret[3]-2][2];
+                fy = arr[ret[3]-2][3];
+                ret = bfs(start, map, arr, fx,fy,F);
                 if (ret[0]!=-1){
                     start[0] = ret[1];
                     start[1] = ret[2];
@@ -79,7 +82,7 @@ public class Baekjoon_19238 {
 
     }
 
-    public static int[] bfs(int[] start, int[][] map, int[][] arr, int flag, int F) {
+    public static int[] bfs(int[] start, int[][] map, int[][] arr, int fx, int fy, int F) {
         Queue<int[]> q = new LinkedList<>();
         int x,y,nx,ny;
         int[] tmp;
@@ -94,7 +97,7 @@ public class Baekjoon_19238 {
             tmp = q.poll();
             x = tmp[0];
             y = tmp[1];
-            if (flag == -1 && map[x][y] > 1 ) {
+            if (fx == -1 && map[x][y] > 1 ) {
                 ret[0]=v[x][y];
                 ret[1] = x;
                 ret[2] = y;
@@ -102,7 +105,7 @@ public class Baekjoon_19238 {
                 map[x][y] = 0;
                 return ret;
                 
-            } else if ( map[x][y] == flag) {
+            } else if ( x==fx && y == fy) {
                 ret[0]=v[x][y];
                 ret[1] = x;
                 ret[2] = y;
