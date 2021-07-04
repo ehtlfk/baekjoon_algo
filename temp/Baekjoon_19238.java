@@ -8,7 +8,9 @@ package temp;
 //그 승객을 태워 이동하면서 소모한 연료 양의 두 배가 충전된다. 
 //이동하는 도중에 연료가 바닥나면 이동에 실패하고, 그 날의 업무가 끝난다. 
 //승객을 목적지로 이동시킨 동시에 연료가 바닥나는 경우는 실패한 것으로 간주하지 않는다.
-
+//그다음 줄부터 M개의 줄에 걸쳐 각 승객의 출발지의 행과 열 번호, 그리고 목적지의 행과 열 번호가 주어진다. 
+//모든 출발지와 목적지는 빈칸이고, 모든 출발지는 서로 다르며, 각 손님의 출발지와 목적지는 다르다.
+// 출발지는 다르지만 도착지가 같을 수도 있는건가?
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
@@ -42,8 +44,6 @@ public class Baekjoon_19238 {
         start[0] = Integer.parseInt(startP[0])-1;
         start[1] = Integer.parseInt(startP[1])-1;
 
-        //택시와 승객이 같은 칸에 있을 수 있나?
-        //택시의 위치는 표시할 필요 없음
         int[][] arr = new int[1][4];
         for (int i=0; i<M; ++i) {
             StringTokenizer st = new StringTokenizer(bReader.readLine()," ");
@@ -68,7 +68,6 @@ public class Baekjoon_19238 {
                     F += ret[0];
                     M--;
                 } else break;
-                
             } else break;
         }
         
@@ -85,8 +84,8 @@ public class Baekjoon_19238 {
         int x,y,nx,ny;
         int[] tmp;
         int[] ret = new int[4];
-        int[] dx = {-1,0,1,0};
-        int[] dy = {0,-1,0,1};
+        int[] dx = {-1,0,0,1};
+        int[] dy = {0,-1,1,0};
 
         int[][] v = new int[map.length][map.length];
         q.add(start);
