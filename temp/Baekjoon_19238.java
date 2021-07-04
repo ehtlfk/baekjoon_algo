@@ -93,7 +93,28 @@ public class Baekjoon_19238 {
             tmp = q.poll();
             x = tmp[0];
             y = tmp[1];
-            
+            if (fx == -1 && map[x][y] > 1 ) {
+                if (F < v[x][y]){
+                    ret[0] = -1;
+                    return ret;
+                }
+                ret[0]=v[x][y];
+                ret[1] = x;
+                ret[2] = y;
+                ret[3] = map[x][y];
+                map[x][y] = 0;
+                return ret;
+            }
+            else if ( x==fx && y == fy) {
+                if (F < v[x][y]){
+                    ret[0] = -1;
+                    return ret;
+                }
+                ret[0]=v[x][y];
+                ret[1] = x;
+                ret[2] = y;
+                return ret;
+            }
 
             for (int k=0; k<4;k++){
                 nx = x + dx[k];
