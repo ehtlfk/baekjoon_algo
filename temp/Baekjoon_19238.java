@@ -73,13 +73,9 @@ public class Baekjoon_19238 {
                 } else break;
             } else break;
         }
-        
         if (M == 0 ){
             System.out.println(F);
         } else System.out.println(-1);
-        
-        
-
     }
 
     public static int[] bfs(int[] start, int[][] map, int[][] arr, int fx, int fy, int F) {
@@ -97,22 +93,12 @@ public class Baekjoon_19238 {
             tmp = q.poll();
             x = tmp[0];
             y = tmp[1];
-            if (fx == -1 && map[x][y] > 1 ) {
-                ret[0]=v[x][y];
-                ret[1] = x;
-                ret[2] = y;
-                ret[3] = map[x][y];
-                map[x][y] = 0;
-                return ret;
-                
-            } else if ( x==fx && y == fy) {
-                ret[0]=v[x][y];
-                ret[1] = x;
-                ret[2] = y;
-                map[x][y] = 0;
+            
+            if (F<v[x][y]+1){
+                ret[0] = -1;
                 return ret;
             }
-            
+
             for (int k=0; k<4;k++){
                 nx = x + dx[k];
                 ny = y + dy[k];
@@ -121,13 +107,21 @@ public class Baekjoon_19238 {
                     nxy[0] = nx;
                     nxy[1] = ny;
                     q.add(nxy);
-                    if (F>=v[x][y]+1){
-                        v[nx][ny] = v[x][y]+1;
-                    } else {
-                        ret[0] =-1;
+                    v[nx][ny] = v[x][y]+1;
+                    if (fx == -1 && map[nx][ny] > 1 ) {
+                        ret[0]=v[nx][ny];
+                        ret[1] = nx;
+                        ret[2] = ny;
+                        ret[3] = map[nx][ny];
+                        map[nx][ny] = 0;
                         return ret;
                     }
-                    
+                    else if ( nx==fx && ny == fy) {
+                        ret[0]=v[nx][ny];
+                        ret[1] = x;
+                        ret[2] = y;
+                        return ret;
+                    }
                 }
             }
         }
