@@ -54,10 +54,15 @@ public class Baekjoon_19238 {
             // map[arr[i][2]][arr[i][3]] = -(i+2);   
         }
         
-        int[] ret;
+        int[] ret = new int[4];
         int fx,fy;
         while (M>0) {
-            ret = bfs(start, map, arr,-1,-1,F);
+            if (map[start[0]][start[1]]>1){
+                ret[0] = 0;
+                ret[1] = start[0];
+                ret[2] = start[1];
+                ret[3] = map[start[0]][start[1]];
+            } else ret = bfs(start, map, arr,-1,-1,F);
             if (ret[0]!=-1) {
                 F -= ret[0];
                 start[0] = ret[1];
@@ -83,73 +88,62 @@ public class Baekjoon_19238 {
         int x,y,nx,ny;
         int[] tmp;
         int[] ret = new int[4];
-        int[] dx = {-1,0,0,1};
-        int[] dy = {0,-1,1,0};
+        ret[1] = map.length;
+        ret[2] = map.length;
+        int[] dx = {1,0,0,-1};
+        int[] dy = {0,1,-1,0};
 
         int[][] v = new int[map.length][map.length];
         q.add(start);
-
+        
         while (!q.isEmpty()) {
-            tmp = q.poll();
-            x = tmp[0];
-            y = tmp[1];
-            if (fx == -1 && map[x][y] > 1 ) {
-                if (F < v[x][y]){
-                    ret[0] = -1;
-                    return ret;
-                }
-                ret[0]=v[x][y];
-                ret[1] = x;
-                ret[2] = y;
-                ret[3] = map[x][y];
-                map[x][y] = 0;
-                return ret;
-            }
-            else if ( x==fx && y == fy) {
-                if (F < v[x][y]){
-                    ret[0] = -1;
-                    return ret;
-                }
-                ret[0]=v[x][y];
-                ret[1] = x;
-                ret[2] = y;
-                return ret;
-            }
-
-            for (int k=0; k<4;k++){
-                nx = x + dx[k];
-                ny = y + dy[k];
-                if (0<=nx && nx<map.length && 0<=ny && ny<map.length && map[nx][ny]!=1 && v[nx][ny]==0) {
-                    int[] nxy = new int[2];
-                    nxy[0] = nx;
-                    nxy[1] = ny;
-                    q.add(nxy);
-                    v[nx][ny] = v[x][y]+1;
-                    if (fx == -1 && map[nx][ny] > 1 ) {
-                        if (F < v[nx][ny]){
-                            ret[0] = -1;
+            int s = q.size();
+            for (int i=0;i<s;i++) {
+                tmp = q.poll();
+                x = tmp[0];
+                y = tmp[1];
+                
+                for (int k=0; k<4;k++){
+                    nx = x + dx[k];
+                    ny = y + dy[k];
+                    if (0<=nx && nx<map.length && 0<=ny && ny<map.length && map[nx][ny]!=1 && v[nx][ny]==0) {
+                        int[] nxy = new int[2];
+                        nxy[0] = nx;
+                        nxy[1] = ny;
+                        q.add(nxy);
+                        v[nx][ny] = v[x][y]+1;
+                        if (fx == -1 && map[nx][ny] > 1 ) {
+                            if ((nx < ret[1]) || (nx == ret[1] && ny < ret[2]) ){
+                                ret[0] = v[nx][ny];
+                                ret[1] = nx;
+                                ret[2] = ny;
+                                ret[3] = map[nx][ny];
+                                // map[nx][ny] = 0;
+                            }
+                        }
+                        else if ( nx==fx && ny == fy) {
+                            if (F < v[nx][ny]){
+                                ret[0] = -1;
+                                return ret;
+                            }
+                            ret[0] = v[nx][ny];
+                            ret[1] = nx;
+                            ret[2] = ny;
                             return ret;
                         }
-                        ret[0]=v[nx][ny];
-                        ret[1] = nx;
-                        ret[2] = ny;
-                        ret[3] = map[nx][ny];
-                        map[nx][ny] = 0;
-                        return ret;
-                    }
-                    else if ( nx==fx && ny == fy) {
-                        if (F < v[nx][ny]){
-                            ret[0] = -1;
-                            return ret;
-                        }
-                        ret[0]=v[nx][ny];
-                        ret[1] = nx;
-                        ret[2] = ny;
-                        return ret;
                     }
                 }
+            }
+            
+            if (ret[1]!=map.length) {
+                map[ret[1]][ret[2]] = 0;
+                if (F < ret[0]) {
+                    ret[0] = -1;
+                }
+                return ret;
             }
         }
+
         ret[0] = -1;
         return ret;
     }
