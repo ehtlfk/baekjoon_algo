@@ -94,10 +94,6 @@ public class Baekjoon_19238 {
             x = tmp[0];
             y = tmp[1];
             
-            if (F<v[x][y]+1){
-                ret[0] = -1;
-                return ret;
-            }
 
             for (int k=0; k<4;k++){
                 nx = x + dx[k];
@@ -109,6 +105,10 @@ public class Baekjoon_19238 {
                     q.add(nxy);
                     v[nx][ny] = v[x][y]+1;
                     if (fx == -1 && map[nx][ny] > 1 ) {
+                        if (F < v[nx][ny]){
+                            ret[0] = -1;
+                            return ret;
+                        }
                         ret[0]=v[nx][ny];
                         ret[1] = nx;
                         ret[2] = ny;
@@ -117,6 +117,10 @@ public class Baekjoon_19238 {
                         return ret;
                     }
                     else if ( nx==fx && ny == fy) {
+                        if (F < v[nx][ny]){
+                            ret[0] = -1;
+                            return ret;
+                        }
                         ret[0]=v[nx][ny];
                         ret[1] = nx;
                         ret[2] = ny;
