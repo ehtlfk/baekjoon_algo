@@ -118,8 +118,8 @@ public class Baekjoon_19238 {
                     }
                     else if ( nx==fx && ny == fy) {
                         ret[0]=v[nx][ny];
-                        ret[1] = x;
-                        ret[2] = y;
+                        ret[1] = nx;
+                        ret[2] = ny;
                         return ret;
                     }
                 }
