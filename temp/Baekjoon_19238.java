@@ -62,6 +62,7 @@ public class Baekjoon_19238 {
                 ret[1] = start[0];
                 ret[2] = start[1];
                 ret[3] = map[start[0]][start[1]];
+                map[start[0]][start[1]] = 0;
             } else ret = bfs(start, map, arr,-1,-1,F);
             if (ret[0]!=-1) {
                 F -= ret[0];
